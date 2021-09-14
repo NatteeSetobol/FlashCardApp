@@ -13,5 +13,7 @@ import com.nomication.Models.Card;
 public interface CardRepo extends CrudRepository<Card, Integer> {
 	@Query("from Card where deck_id = ?1")
 	ArrayList<Card> findAllCardsByDeckId(int deck_id);
+	@Query("from Card where id = ?1")
+	ArrayList<Card> findCardsById(int id);
 }
 

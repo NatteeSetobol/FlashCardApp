@@ -4,12 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import { useEditCardMutation } from "../services/card"
 import { useDispatch, useSelector } from "react-redux"
-import { setDeck } from "../sliceoflife/deck"
+import { setDeck,updateCard,setSelectedCards } from "../sliceoflife/deck"
 import { Card } from "../models/card"
 
 const EditCardModal = () => {
 	const [show, setShow] = useState(false);
-	const handleClose = () => setShow(false);
+	const edithandleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const [inputs, setInputs] = useState({cardBack: '', cardFront: ''});
 	const [clicked, setClicked] = useState(false);
@@ -19,11 +19,16 @@ const EditCardModal = () => {
 	const dispatch = useDispatch();
 	const [scard, setCard] = useState({});
 	
+	const RefreshTable = (data: any) => async() => {
+
+		dispatch(setSelectedCards(data));
+	}
+
     useEffect(() => {
 		if (myDeck.selectedCardIndex != -1)
 		{
 			const c:Card = myDeck.selectedCards[myDeck.selectedCardIndex];
-			setInputs({cardBack: c.front, cardFront: c.back});
+			setInputs({cardBack: c.back, cardFront: c.front});
 		}
 		//setInputs({cardBack:c.front, cardFront: c.back});
     }, [null]);
@@ -33,9 +38,9 @@ const EditCardModal = () => {
 		event.preventDefault();
 
 		const editCard:Card = myDeck.selectedCards[myDeck.selectedCardIndex];
-		const newCard:Card = { id: editCard.id, front: inputs.cardBack , back:inputs.cardFront, dueDate: '' };
+		const newCard:Card = { id: editCard.id,deckId: 0, front: inputs.cardFront, back:inputs.cardBack, dueDate: '' };
 
-		dispatch(EditCard(newCard));
+		EditCard(newCard);
 		setInputs({cardBack: '', cardFront: ''});
 		setClicked(true);
 	}
@@ -50,8 +55,9 @@ const EditCardModal = () => {
 				{
 					setResultStatus(data.error);
 				} else {
-					setResultStatus("card created!");
-					handleClose();
+					dispatch(setSelectedCards(data));
+					setResultStatus("Edit successfull!");
+					edithandleClose();
 				}
 				setClicked(false);
 			}

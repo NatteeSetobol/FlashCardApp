@@ -11,6 +11,7 @@ import CreateCardModal from './createcardmodel'
 import { Modal, Button } from 'react-bootstrap';
 import { setSelectedCards, setSelectedCardIndex } from "../sliceoflife/deck"
 import { Card } from "../models/card"
+import DeleteCard from "./deletecard"
 
 const DeckEdit = () => {
 	    const  myDeck  = useSelector( (state:any) => state.myDecks.selected)
@@ -122,7 +123,7 @@ const DeckEdit = () => {
 						<thead>
 							<tr>
 								<th scope="col">#</th>
-								<th scope="col">front</th>
+								<th scope="col">Front</th>
 								<th scope="col">Back</th>
 								<th scope="col">Due</th>
 								<th scope="col">Actions</th>

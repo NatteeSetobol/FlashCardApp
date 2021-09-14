@@ -23,4 +23,8 @@ public class CardServices {
 	{
 		return cardRepo.findAllCardsByDeckId(deckId);
 	}
+	public ArrayList<Card> getCardsById(int id)
+	{
+		return cardRepo.findCardsById(id);
+	}
 }

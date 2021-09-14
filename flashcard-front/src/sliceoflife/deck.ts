@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { Card } from "../models/card"
 
 export const deckSlice = createSlice({
 	name: "myDeck",
@@ -27,9 +28,11 @@ export const deckSlice = createSlice({
 		},
 		setSelectedCardIndex: (state, action) => {
 			state.selectedCardIndex = action.payload;
+		},
+		updateCard: (state, action) => {
 		}
 	}
 });
 
-export const { setDeck,getDeck, addDeck,setSelectedDeck, setSelectedCards,setSelectedCardIndex } = deckSlice.actions;
+export const { updateCard, setDeck,getDeck, addDeck,setSelectedDeck, setSelectedCards,setSelectedCardIndex } = deckSlice.actions;
 export default  deckSlice.reducer;

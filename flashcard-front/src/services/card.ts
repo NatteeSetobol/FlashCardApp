@@ -23,7 +23,7 @@ export const cardApi = createApi({
 				url: `/card`,
 				method: 'PUT',
 				headers: {
-					'Content-Type': 'application/json; charset=ytf-8'
+					'Content-Type': 'application/json; charset=utf-8'
 				},
 				body: card,
 			}),

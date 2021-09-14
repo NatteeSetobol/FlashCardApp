@@ -6,6 +6,7 @@ import { loginApi } from "./services/login"
 import { deckApi } from "./services/deck"
 import { cardApi } from "./services/card"
 import  deckReducer  from "./sliceoflife/deck"
+import thunk from 'redux-thunk'
 
 export const store = configureStore({
 	reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
 		[cardApi.reducerPath]: cardApi.reducer,
 	},
 	middleware: (getDefaultMiddiware) =>
-		getDefaultMiddiware().concat(loginApi.middleware,deckApi.middleware, cardApi.middleware),
+		getDefaultMiddiware().concat(loginApi.middleware,deckApi.middleware, cardApi.middleware, thunk),
+		
 });
 
 export type RootState = ReturnType<typeof store.getState>;

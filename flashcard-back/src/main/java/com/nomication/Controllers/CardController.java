@@ -90,5 +90,38 @@ public class CardController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	@RequestMapping(value="/card", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<Object> EditDeck(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
+	{
+		HashMap<String, Object> result =  new HashMap<String, Object>();
+		ArrayList<HashMap<String,Object>> session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
+
+		if (session != null)
+		{
+			HashMap<String, Object> sessionHashMap = session.get(0);
+			User currentUser = (User) sessionHashMap.get("user");
+			//TODO(): Make sure the card that belongs to the deck the user created.
+			ArrayList<Card> cards = cardServices.getCardsById(targetCard.getId());
+
+			if (cards.size() > 0)
+			{
+				Card card = cards.get(0);
+				card.setFront(targetCard.getFront());
+				card.setBack(targetCard.getBack());
+				cardServices.save(card);
+			
+				return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
+			}
+
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} else {
+			result.put("error","no session found!");
+		}
+
+
+		result.put("success","It worked!");
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 }
 	
