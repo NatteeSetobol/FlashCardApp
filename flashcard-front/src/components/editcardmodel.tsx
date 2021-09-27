@@ -8,9 +8,9 @@ import { setDeck,updateCard,setSelectedCards } from "../sliceoflife/deck"
 import { Card } from "../models/card"
 
 const EditCardModal = () => {
-	const [show, setShow] = useState(false);
-	const edithandleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+	const [editShow, setEditShow] = useState(false);
+	const editHandleClose = () => setEditShow(false);
+	const editHandleShow = () => setEditShow(true);
 	const [inputs, setInputs] = useState({cardBack: '', cardFront: ''});
 	const [clicked, setClicked] = useState(false);
 	const [resultStatus, setResultStatus] = useState("");
@@ -19,11 +19,6 @@ const EditCardModal = () => {
 	const dispatch = useDispatch();
 	const [scard, setCard] = useState({});
 	
-	const RefreshTable = (data: any) => async() => {
-
-		dispatch(setSelectedCards(data));
-	}
-
     useEffect(() => {
 		if (myDeck.selectedCardIndex != -1)
 		{
@@ -41,7 +36,6 @@ const EditCardModal = () => {
 		const newCard:Card = { id: editCard.id,deckId: 0, front: inputs.cardFront, back:inputs.cardBack, dueDate: '' };
 
 		EditCard(newCard);
-		setInputs({cardBack: '', cardFront: ''});
 		setClicked(true);
 	}
 
@@ -57,7 +51,7 @@ const EditCardModal = () => {
 				} else {
 					dispatch(setSelectedCards(data));
 					setResultStatus("Edit successfull!");
-					edithandleClose();
+					editHandleClose();
 				}
 				setClicked(false);
 			}

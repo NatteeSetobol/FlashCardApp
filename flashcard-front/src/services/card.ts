@@ -28,10 +28,20 @@ export const cardApi = createApi({
 				body: card,
 			}),
 		}),
+		deleteCard: builder.mutation({
+			query: (card:Card) => ({
+				url: `/card`,
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				body: card,
+			}),
+		}),
 		getAllCards: builder.query({
 			query: (deckId) => '/cards/' + deckId
 		}),
 	}),
 });
 
-export const { useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation } = cardApi;
+export const { useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation, useDeleteCardMutation } = cardApi;

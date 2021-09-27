@@ -11,7 +11,7 @@ import CreateCardModal from './createcardmodel'
 import { Modal, Button } from 'react-bootstrap';
 import { setSelectedCards, setSelectedCardIndex } from "../sliceoflife/deck"
 import { Card } from "../models/card"
-import DeleteCard from "./deletecard"
+import DeleteCardModel from "./deletecardmodel"
 
 const DeckEdit = () => {
 	    const  myDeck  = useSelector( (state:any) => state.myDecks.selected)
@@ -19,10 +19,15 @@ const DeckEdit = () => {
 		const dispatch = useDispatch();
 		const { data, error,isLoading, isSuccess, isError }   = useGetAllCardsQuery(myDeck.id);
 		const [show, setShow] = useState(false);
+		const [editShow, setEditShow] = useState(false);
 		const handleClose = () => setShow(false);
 		const handleShow = () => setShow(true);
-		const edithandleClose = () => setShow(false);
-		const edithandleShow = () => setShow(true);
+		const editHandleClose = () => setEditShow(false);
+		const editHandleShow = () => setEditShow(true);
+
+		const [deleteShow, setDeleteShow] = useState(false);
+		const deleteHandleClose = () => setDeleteShow(false);
+		const deleteHandleShow = () => setDeleteShow(true);
 
 		const [ isLoaded, setIsLoaded ] = useState(false);
 		const [ isMapped, setIsMapped] = useState(false);
@@ -30,14 +35,14 @@ const DeckEdit = () => {
 		const editCard = (cardId:number) => () =>
 		{
 			dispatch(setSelectedCardIndex(cardId));
-			edithandleShow();
+			editHandleShow();
 		}
 
-		const deleteCard = () =>
+		const deleteCard = (cardId:number) => () =>
 		{
-			alert("delete card");
+			dispatch(setSelectedCardIndex(cardId));
+			deleteHandleShow();
 		}
-
 
 		const mapIt = (mapData:[]) => (
 			mapData.map((card:Card, i) => (
@@ -56,7 +61,7 @@ const DeckEdit = () => {
 					</td>
 					<td>
 						<button type="button" className="btn btn-primary" onClick={editCard(i)}>Edit</button>
-						<button type="button" className="btn btn-danger" onClick={deleteCard}>Delete</button>
+						<button type="button" className="btn btn-danger" onClick={deleteCard(i)}>Delete</button>
 					</td>
 				</tr>
 			)
@@ -97,7 +102,7 @@ const DeckEdit = () => {
 					</div>
 				</div>
 				<div className="row align-items-center">
-						<Modal show={show} onHide={edithandleClose} backdrop="static">
+						<Modal show={editShow} onHide={editHandleClose} backdrop="static">
 							<Modal.Header>
 								<Modal.Title>Edit Card</Modal.Title>
 							</Modal.Header>
@@ -105,10 +110,24 @@ const DeckEdit = () => {
 								<EditCardModal />
 							</Modal.Body>
 							<Modal.Footer>
-								<Button variant="secondary" onClick={edithandleClose}>Close</Button>
+								<Button variant="secondary" onClick={editHandleClose}>Close</Button>
 							</Modal.Footer>
 						</Modal>
 				</div>
+				<div className="row align-items-center">
+						<Modal show={deleteShow} onHide={deleteHandleClose} backdrop="static">
+							<Modal.Header>
+								<Modal.Title>Delete Card</Modal.Title>
+							</Modal.Header>
+							<Modal.Body>
+								<DeleteCardModel />
+							</Modal.Body>
+							<Modal.Footer>
+								<Button variant="secondary" onClick={deleteHandleClose}>Close</Button>
+							</Modal.Footer>
+						</Modal>
+				</div>
+
 
 				<h3 className="decktitle">{myDeck.name }</h3>
 				<nav className="navbar navbar-expand-lg navbar-light bg-light static-top">

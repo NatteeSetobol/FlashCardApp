@@ -19,6 +19,11 @@ public class CardServices {
 		cardRepo.save(card);
 	}
 
+	public void delete(Card card)
+	{
+		cardRepo.delete(card);
+	}
+
 	public ArrayList<Card> getAllCardsFromDeckById(int deckId)
 	{
 		return cardRepo.findAllCardsByDeckId(deckId);

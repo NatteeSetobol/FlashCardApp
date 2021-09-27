@@ -31,6 +31,12 @@ const IndexPage:React.FC<unknown> = () => {
 		history.push("/decks/" + deck.id + "/");
     }
 
+    const settings = (deck:any) => (event:any) =>
+    {
+		dispatch(setSelectedDeck(deck));
+		history.push("/settings/" + deck.id + "/");
+    }
+
 	const mapIt = (mapData:[]) => (
 		mapData.map((deck:Deck) => (
 			<tr>
@@ -50,7 +56,7 @@ const IndexPage:React.FC<unknown> = () => {
 					{deck.totalStudied}
 				</td>
 				<td>
-					<Link to={`/settings/${deck.id}`}>Settings</Link>
+					<a href="#" onClick={settings(deck)}>Settings</a>
 				</td>
 			</tr>
 		)
