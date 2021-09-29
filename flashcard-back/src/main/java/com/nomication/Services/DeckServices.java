@@ -23,4 +23,22 @@ public class DeckServices {
 	{
 		return deckRepo.findAllDeckByUserId(userId);
 	}
+
+	public void delete(Deck deck)
+	{
+		deckRepo.delete(deck);
+	}
+
+	public Deck GetDeckById(int id)
+	{
+		ArrayList<Deck> foundDecks = deckRepo.GetDeckById(id);
+		Deck foundDeck = null;
+
+		if (foundDecks.size() > 0)
+		{
+			foundDeck = foundDecks.get(0);
+		}
+
+		return foundDeck;
+	}
 }

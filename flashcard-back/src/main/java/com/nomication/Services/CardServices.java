@@ -32,4 +32,9 @@ public class CardServices {
 	{
 		return cardRepo.findCardsById(id);
 	}
+
+	public boolean deleteAllCardsFromDeck(int deck_id)
+	{
+		return cardRepo.deleteAllCardsFromDeck(deck_id);
+	}
 }

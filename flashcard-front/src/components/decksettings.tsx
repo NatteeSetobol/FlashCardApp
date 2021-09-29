@@ -4,9 +4,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import   TextScrollComponent  from './textscrollcomponent'
+import DateComponent from './datecomponent'
 
-const DeckSettings = () => {
+
+type Props = {
+	value:number;
+	onDateChanged:any;
+}
+
+const DeckSettings: React.FC<Props> = (props)  => {
 
 	const  myDeck  = useSelector( (state:any) => state.myDecks.selected)
 	const [count,setCount] = useState(1);
@@ -75,7 +81,6 @@ const DeckSettings = () => {
 						    onlabel='On'
 						    offlabel='Off'
 						    onChange={(checked: boolean) => {
-						                        //this.setState({ isUserAdmin: checked })
 						    }}
 						/>
 
@@ -91,147 +96,34 @@ const DeckSettings = () => {
 						</td>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody >
 					<tr>
 						<td>
 
 							Delay 1:
-							<table>
-								<thead>
-									<tr>
-										<td>
-											Day
-										</td>
-										<td>
-											Mins
-										</td>
-										<td>
-											Hours
-										</td>
-									</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-
-								</tr>
-								</tbody>
-							</table>
+							<DateComponent  />
 						</td>
 					</tr>
 					<tr>
 						<td>
 
 							Delay 2:
-							<table>
-								<thead>
-									<tr>
-										<td>
-											Day
-										</td>
-										<td>
-											Mins
-										</td>
-										<td>
-											Hours
-										</td>
-									</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-
-								</tr>
-								</tbody>
-							</table>
+							<DateComponent />
 						</td>
 					</tr>
-					<tr>
+						<tr>
 						<td>
 
 							Delay 3:
-							<table>
-								<thead>
-									<tr>
-										<td>
-											Day
-										</td>
-										<td>
-											Mins
-										</td>
-										<td>
-											Hours
-										</td>
-									</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-
-								</tr>
-								</tbody>
-							</table>
+							<DateComponent />
 						</td>
-					</tr>
-					<tr>
+					</tr>				<tr>
 						<td>
-							Delay 4:
-							<table>
-								<thead>
-									<tr>
-										<td>
-											Day
-										</td>
-										<td>
-											Mins
-										</td>
-										<td>
-											Hours
-										</td>
-									</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
-									<td>
-										<TextScrollComponent value={ count } parentCallback = { handleCallback } />
-									</td>
 
-								</tr>
-								</tbody>
-							</table>
+							Delay 4:
+							<DateComponent />
 						</td>
 					</tr>
-
 				</tbody>
 			</table>
 		</div>

@@ -8,8 +8,16 @@ import { QueryCache } from 'react-query'
 import { Link } from 'react-router-dom'
 import { useHistory } from "react-router-dom"
 import { setSelectedDeck } from "../sliceoflife/deck"
-
+import '../css/deck.css'
+import '../css/index.css'
+import { Modal, Button } from 'react-bootstrap';
+import DeleteDeckModel from './createdeckmodel'
 const IndexPage:React.FC<unknown> = () => {
+
+	const [showDelete, setShowDelete] = useState(false);
+	const deleteClose = () => setShowDelete(false);
+	const deleteShow = () => setShowDelete(true);
+
 	const { data, error,isLoading, isSuccess, isError }   = useGetAllDecksQuery("");
 	const [ isLoaded, setIsLoaded ] = useState(false);
 	const [ isMapped, setIsMapped] = useState(false);
@@ -37,6 +45,11 @@ const IndexPage:React.FC<unknown> = () => {
 		history.push("/settings/" + deck.id + "/");
     }
 
+    const deleteDeck = (deck:any) => (event:any) =>
+    {
+		deleteShow();
+    }
+
 	const mapIt = (mapData:[]) => (
 		mapData.map((deck:Deck) => (
 			<tr>
@@ -57,6 +70,7 @@ const IndexPage:React.FC<unknown> = () => {
 				</td>
 				<td>
 					<a href="#" onClick={settings(deck)}>Settings</a>
+					<button className="btn btn-danger deleteButton" onClick={deleteDeck}>Delete</button>
 				</td>
 			</tr>
 		)
@@ -90,6 +104,7 @@ const IndexPage:React.FC<unknown> = () => {
 		<div className="container">
 			<br/>
 			<CreateDeckModal />
+
 			<table className="table">
 				<thead>
 					<tr>
@@ -98,7 +113,7 @@ const IndexPage:React.FC<unknown> = () => {
 						<th scope="col">Due Date</th>
 						<th scope="col">Total Cards</th>
 						<th scope="col">Total Studed</th>
-						<th scope="col">Settings</th>
+						<th scope="col"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -113,6 +128,20 @@ const IndexPage:React.FC<unknown> = () => {
 								}
 				</tbody>
 			</table>
+			<div className="row align-items-center">
+				<Modal show={showDelete} onHide={deleteClose} backdrop="static">
+					<Modal.Header>
+						<Modal.Title>Delete Deck</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						<DeleteDeckModel />
+					</Modal.Body>
+					<Modal.Footer>
+						<Button variant="secondary" onClick={deleteClose}>Close</Button>
+					</Modal.Footer>
+				</Modal>
+			</div>
+
 		</div>
 	);
 }

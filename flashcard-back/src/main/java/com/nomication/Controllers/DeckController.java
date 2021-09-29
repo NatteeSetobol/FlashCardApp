@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 import com.nomication.Models.Deck;
+import com.nomication.Models.Setting;
+import com.nomication.Services.SettingServices;
 import com.nomication.Services.DeckServices;
 import com.nomication.Services.UserServices;
 import com.nomication.Models.User;
@@ -27,6 +29,10 @@ public class DeckController {
 
 	@Autowired
 	UserServices userService;
+
+	@Autowired
+	SettingServices settingService;
+
 
 	@RequestMapping(value="/deck", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Object> CreateDeck(@RequestBody Deck targetDeck, HttpServletRequest httpServletRequest)
@@ -57,6 +63,21 @@ public class DeckController {
 					deck.setUserId(foundUser.getId());
 					userService.merge(foundUser);
 					deckServices.save(deck);
+
+					Setting settings = new Setting();
+					settings.setDeckId(deck.getId());
+					settings.setCardsPerDay(5);
+					settings.setTimer(0);
+					settings.setRandomize(false);
+					settings.setDelay1(0);
+					settings.setDelay2(60*60*24);
+					settings.setDelay3(60*60*24*5);
+					settings.setDelay4(60*60*24*10);
+					settings.setDelay5(60*60*24*15);
+					settingService.save(settings);
+					
+
+
 					result.put("decks",deckServices.getAllDecksByUserId(currentUser.getId()));
 				} else {
 					result.put("error","Deck name can not be blank!");
@@ -93,4 +114,35 @@ public class DeckController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	@RequestMapping(value="/decks", method = RequestMethod.DELETE)
+	public ResponseEntity<Object> DeleteDeck(@RequestBody Deck deckToDelete,HttpServletRequest httpServletRequest)
+	{
+		ArrayList<HashMap<String,Object>> session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
+		HashMap<String, Object> result =  new HashMap<String, Object>();
+
+		if (session != null)
+		{
+			HashMap<String, Object> sessionHashMap = session.get(0);
+			User currentUser = (User) sessionHashMap.get("user");
+
+			Deck deckToDel = deckServices.GetDeckById(deckToDelete.getId());
+			if (deckToDel != null)
+			{
+				if (deckToDel.getUserId() == currentUser.getId())
+				{
+					deckServices.delete(deckToDel);
+				}
+			}
+
+			return ResponseEntity.status(HttpStatus.OK).body(deckServices.getAllDecksByUserId(currentUser.getId()));
+		} else {
+			result.put("error","no session found!");
+		}
+
+
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+
+	}
+
 }

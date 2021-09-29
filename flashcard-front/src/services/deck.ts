@@ -18,7 +18,17 @@ export const deckApi = createApi({
 		getAllDecks: builder.query({
 			query:() => '/decks'
 		}),
+		deleteDeck: builder.mutation ({
+			query: (input) => ({
+				url: `deck`,
+				method: `DELETE`,
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+                },
+				body: input,
+			}),
+		}),
 	}),
 });
 
-export const { useCreateDeckMutation, useGetAllDecksQuery } = deckApi;
+export const { useDeleteDeckMutation,useCreateDeckMutation, useGetAllDecksQuery } = deckApi;

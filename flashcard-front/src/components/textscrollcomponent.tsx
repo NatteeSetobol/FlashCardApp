@@ -12,6 +12,7 @@ const TextScrollComponent: React.FC<Props> = (props) => {
 	const [count,setCount] = useState("");
 
 	useEffect(() => {
+		setCount("" + props.value);
 	}, [null]);
 
 	
