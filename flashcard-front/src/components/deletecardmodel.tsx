@@ -6,7 +6,7 @@ import { useDeleteCardMutation } from "../services/card"
 import { Card } from "../models/card"
 import { setDeck,updateCard,setSelectedCards } from "../sliceoflife/deck"
 
-const DeleteCardModel = () => {
+const DeleteCardModel  = () => {
 	const [deleteShow, setDeleteShow] = useState(false);
 	const handleDeleteClose = () => setDeleteShow(false);
 	const handleDeleteShow = () => setDeleteShow(true);
@@ -22,7 +22,6 @@ const DeleteCardModel = () => {
 		let editCard:Card = myDeck.selectedCards[myDeck.selectedCardIndex];
 		let newCard:Card = { id: editCard.id ,deckId: 0, front: '', back:'', dueDate: '' };
 		DeleteCard(newCard);
-		handleDeleteClose();
 		setClicked(true);
 	}
 
@@ -38,7 +37,6 @@ const DeleteCardModel = () => {
 				} else {
 					dispatch(setSelectedCards(data));
 					setResultStatus("Deletion successfull!");
-					handleDeleteClose();
 				}
 				setClicked(false);
 			}

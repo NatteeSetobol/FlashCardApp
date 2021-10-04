@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.nomication.Models.User;
 import com.nomication.Models.Card;
+import com.nomication.Models.Deck;
 import com.nomication.Services.CardServices;
 import com.nomication.Services.UserServices;
+import com.nomication.Services.DeckServices;
 
 
 @RestController
@@ -30,8 +32,11 @@ public class CardController {
 	@Autowired
 	UserServices userService;
 
+	@Autowired
+	DeckServices deckService;
+
 	@RequestMapping(value="/card", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Object> CreateDeck(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
+	public ResponseEntity<Object> CreateCard(@RequestBody HashMap<String, Object> targetCard, HttpServletRequest httpServletRequest)
 	{
 		HashMap<String, Object> result =  new HashMap<String, Object>();
 		boolean hasError = false;
@@ -50,12 +55,19 @@ public class CardController {
 				{
 					User foundUser = userService.findUserByUsername(currentUser.getUsername());
 
+					int deckId = (int) targetCard.get("deckId");
+					String cardFront = (String) targetCard.get("front");
+					String cardBack = (String) targetCard.get("back");
+
+					Deck deck = deckService.GetDeckById(deckId);
+
 					Card card = new Card();
-					card.setDeck(targetCard.getDeckId());
-					card.setFront(targetCard.getFront());
-					card.setBack(targetCard.getBack());
+				//	card.setDeckId(deckId);
+					card.setFront(cardFront);
+					card.setBack(cardBack);
+					card.setDeck(deck);
 					cardServices.save(card);
-					result.put("cards",cardServices.getAllCardsFromDeckById(targetCard.getDeckId()));
+					result.put("cards",cardServices.getAllCardsFromDeckById(deckId));
 				} else {
 					result.put("error","Deck name can not be blank!");
 				}
@@ -92,7 +104,7 @@ public class CardController {
 	}
 
 	@RequestMapping(value="/card", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Object> EditDeck(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
+	public ResponseEntity<Object> EditCard(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
 	{
 		HashMap<String, Object> result =  new HashMap<String, Object>();
 		ArrayList<HashMap<String,Object>> session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
@@ -111,7 +123,7 @@ public class CardController {
 				card.setBack(targetCard.getBack());
 				cardServices.save(card);
 			
-				return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
+			//	return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
 			}
 
 			return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -124,7 +136,7 @@ public class CardController {
 	}
 
 	@RequestMapping(value="/card", method = RequestMethod.DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Object> DeleteDeck(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
+	public ResponseEntity<Object> DeleteCard(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
 	{
 		HashMap<String, Object> result =  new HashMap<String, Object>();
 		ArrayList<HashMap<String,Object>> session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
@@ -140,7 +152,7 @@ public class CardController {
 			{
 				Card card = cards.get(0);
 				cardServices.delete(card);
-				return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
+				//return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
 			}
 
 			return ResponseEntity.status(HttpStatus.OK).body(result);

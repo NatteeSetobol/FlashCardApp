@@ -18,4 +18,8 @@ public class SettingServices
 		settingRepo.save(setting);
 	}
 	
+	public void deleteSettingsFromDeck(int deck_id)
+	{
+		settingRepo.deleteDeckSettings(deck_id);
+	}
 }

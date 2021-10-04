@@ -49,18 +49,9 @@ const CreateDeckModal = () => {
 
 	return (
 		<div>
-        <div className="centering">
-            <div className="container col-xxl-12 col-xxl-12">
-                <div className="row align-items-center">
-                    <Modal show={show} onHide={handleClose} backdrop="static">
-                        <Modal.Header>
-                            <Modal.Title>Create Deck</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
 				           <form onSubmit={HandleSubmit}>
 						        <h6>Deck name</h6>
 								<input type="text" name="dname" id="dname" className="form-input" onChange={HandleInputChange} value={inputs.dname} />
-								<h6/>
 								<button type="submit" className="btn btn-primary" >Create Deck</button>
 								{ isError ? (
 										<> Sorry, an Error has occured. </>
@@ -71,24 +62,6 @@ const CreateDeckModal = () => {
 									): null
 								}
 							</form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>Close</Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
-            </div>
-        </div>
-		<nav className="navbar navbar-expand-lg navbar-light bg-light static-top">
-				<div className="container-fluid">
-					<div>
-						<button onClick={handleShow} type="button" className="btn btn-primary">Add Deck</button>
-					</div>
-				</div>
-				<div>
-				</div>
-		</nav>
-
         </div>
 	);
 };

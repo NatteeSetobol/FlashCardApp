@@ -19,6 +19,7 @@ import com.nomication.Models.Setting;
 import com.nomication.Services.SettingServices;
 import com.nomication.Services.DeckServices;
 import com.nomication.Services.UserServices;
+import com.nomication.Services.CardServices;
 import com.nomication.Models.User;
 
 
@@ -32,6 +33,9 @@ public class DeckController {
 
 	@Autowired
 	SettingServices settingService;
+
+	@Autowired
+	CardServices cardService;
 
 
 	@RequestMapping(value="/deck", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -56,26 +60,30 @@ public class DeckController {
 				}
 				if (hasError == false)
 				{
-					User foundUser = userService.findUserByUsername(currentUser.getUsername());
-					Deck deck = new Deck();
-					deck.setName(targetDeck.getName());
-					//deck.setUser(foundUser);
-					deck.setUserId(foundUser.getId());
-					userService.merge(foundUser);
-					deckServices.save(deck);
-
 					Setting settings = new Setting();
-					settings.setDeckId(deck.getId());
+					//settings.setDeckId(deck.getId());
+				//	settings.setDeckId(deck.get());
 					settings.setCardsPerDay(5);
-					settings.setTimer(0);
+					settings.setTimer(10);
 					settings.setRandomize(false);
-					settings.setDelay1(0);
+					settings.setDelay1(10);
 					settings.setDelay2(60*60*24);
 					settings.setDelay3(60*60*24*5);
 					settings.setDelay4(60*60*24*10);
 					settings.setDelay5(60*60*24*15);
+	
+					User foundUser = userService.findUserByUsername(currentUser.getUsername());
+					Deck deck = new Deck();
+					deck.setName(targetDeck.getName());
+					//deck.setUser(foundUser);
+					deck.setSetting(settings);
+					deck.setUserId(foundUser.getId());
+					userService.merge(foundUser);
+
+					deckServices.save(deck);
+					settings.setDeck(deck);
 					settingService.save(settings);
-					
+				
 
 
 					result.put("decks",deckServices.getAllDecksByUserId(currentUser.getId()));
@@ -115,7 +123,7 @@ public class DeckController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@RequestMapping(value="/decks", method = RequestMethod.DELETE)
+	@RequestMapping(value="/deck", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> DeleteDeck(@RequestBody Deck deckToDelete,HttpServletRequest httpServletRequest)
 	{
 		ArrayList<HashMap<String,Object>> session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
@@ -131,6 +139,8 @@ public class DeckController {
 			{
 				if (deckToDel.getUserId() == currentUser.getId())
 				{
+					//settingService.deleteSettingsFromDeck(deckToDel.getId());
+					//cardService.deleteAllCardsFromDeck(deckToDel.getId());
 					deckServices.delete(deckToDel);
 				}
 			}

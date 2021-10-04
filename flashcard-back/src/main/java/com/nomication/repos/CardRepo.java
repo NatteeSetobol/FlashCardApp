@@ -16,14 +16,15 @@ import javax.persistence.NamedNativeQuery;
 
 
 @Repository
+@Transactional
 public interface CardRepo extends CrudRepository<Card, Integer> {
 	@Query("from Card where deck_id = ?1")
 	ArrayList<Card> findAllCardsByDeckId(int deck_id);
 	@Query("from Card where id = ?1")
 	ArrayList<Card> findCardsById(int id);
-	
-	@Query("DELETE from Card where deck_id = ?1")
-	boolean deleteAllCardsFromDeck(int deck_Id);
+	@Modifying
+	@Query(value="DELETE from Card where deck_id = ?1", nativeQuery=true)
+	void deleteAllCardsFromDeck(int deck_Id);
 
 }
 

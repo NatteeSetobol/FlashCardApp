@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
+import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Setting
@@ -14,7 +17,7 @@ public class Setting
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int deckId;
+	//private int deckId;
 	private int cardsPerDay;
 	private int timer;
 	private boolean randomize;
@@ -34,6 +37,24 @@ public class Setting
 		this.id = id;
 	}
 
+	@OneToOne(cascade = CascadeType.ALL, mappedBy="setting")	
+	private Deck deck;
+	//@JoinColumn(name = "deck_id", referencedColumnName = "setting_id")
+
+	public void setDeck(Deck deck)
+	{
+		deck  = this.deck;
+	}
+	
+
+	public Deck getDeck()
+	{
+		return deck;
+	}
+
+
+
+/*
 	public int getDeckId()
 	{
 		return deckId;
@@ -43,6 +64,7 @@ public class Setting
 	{
 		this.deckId = deckId;
 	}
+	*/
 
 	public int getCardsPerDay()
 	{

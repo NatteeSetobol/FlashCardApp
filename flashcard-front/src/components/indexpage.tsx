@@ -11,12 +11,16 @@ import { setSelectedDeck } from "../sliceoflife/deck"
 import '../css/deck.css'
 import '../css/index.css'
 import { Modal, Button } from 'react-bootstrap';
-import DeleteDeckModel from './createdeckmodel'
+import DeleteDeckModel from './deletedeckmodel'
 const IndexPage:React.FC<unknown> = () => {
 
 	const [showDelete, setShowDelete] = useState(false);
 	const deleteClose = () => setShowDelete(false);
 	const deleteShow = () => setShowDelete(true);
+	const [show, setShow] = useState(false);
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
+
 
 	const { data, error,isLoading, isSuccess, isError }   = useGetAllDecksQuery("");
 	const [ isLoaded, setIsLoaded ] = useState(false);
@@ -47,6 +51,7 @@ const IndexPage:React.FC<unknown> = () => {
 
     const deleteDeck = (deck:any) => (event:any) =>
     {
+		dispatch(setSelectedDeck(deck));
 		deleteShow();
     }
 
@@ -70,7 +75,7 @@ const IndexPage:React.FC<unknown> = () => {
 				</td>
 				<td>
 					<a href="#" onClick={settings(deck)}>Settings</a>
-					<button className="btn btn-danger deleteButton" onClick={deleteDeck}>Delete</button>
+					<button className="btn btn-danger deleteButton" onClick={deleteDeck(deck)}>Delete</button>
 				</td>
 			</tr>
 		)
@@ -98,12 +103,48 @@ const IndexPage:React.FC<unknown> = () => {
 	}
 
    
-	
+	const closeModel = (childData:any) => {
+		deleteClose();
+	}
 
 	return (
 		<div className="container">
-			<br/>
-			<CreateDeckModal />
+	        <div className="centering">
+				<div className="container col-xxl-12 col-xxl-12">
+					<div className="row align-items-center">
+						<Modal show={showDelete} onHide={deleteClose} backdrop="static">
+							<Modal.Header>
+								<Modal.Title>Delete Deck</Modal.Title>
+							</Modal.Header>
+							<Modal.Body>
+								<DeleteDeckModel closeCallback={closeModel}/>
+							</Modal.Body>
+							<Modal.Footer>
+								<Button variant="secondary" onClick={deleteClose}>Close</Button>
+							</Modal.Footer>
+						</Modal>
+					</div>
+					<div className="row align-items-center">
+						<Modal show={show} onHide={handleClose} backdrop="static">
+							<Modal.Header>
+								<Modal.Title>Create Deck</Modal.Title>
+							</Modal.Header>
+							<Modal.Body>
+								<CreateDeckModal />
+							</Modal.Body>
+							<Modal.Footer>
+								<Button variant="secondary" onClick={handleClose}>Close</Button>
+							</Modal.Footer>
+						</Modal>
+					</div>
+				   </div>
+						<nav className="navbar navbar-expand-lg navbar-light bg-light static-top">
+							<div className="container-fluid">
+								<div>
+									<button onClick={handleShow} type="button" className="btn btn-primary">Add Deck</button>
+								</div>
+							</div>
+						</nav>
 
 			<table className="table">
 				<thead>
@@ -128,20 +169,9 @@ const IndexPage:React.FC<unknown> = () => {
 								}
 				</tbody>
 			</table>
-			<div className="row align-items-center">
-				<Modal show={showDelete} onHide={deleteClose} backdrop="static">
-					<Modal.Header>
-						<Modal.Title>Delete Deck</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<DeleteDeckModel />
-					</Modal.Body>
-					<Modal.Footer>
-						<Button variant="secondary" onClick={deleteClose}>Close</Button>
-					</Modal.Footer>
-				</Modal>
-			</div>
 
+
+			</div>
 		</div>
 	);
 }
