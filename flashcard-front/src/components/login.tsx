@@ -5,7 +5,7 @@ import { apiLogin } from "../remote/loginApi"
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { useLoginMutation } from "../services/login"
-
+import '../css/login.css'
 
 const Login:React.FC<unknown> = () => {
 	const [ userEmail, setUserEmail] = useState<string>('');
@@ -54,32 +54,42 @@ const Login:React.FC<unknown> = () => {
 	}
 
 	return (
+	
 		<div id="main">
-				<div className="row mb-3">
-					<label className="col-sm-2 col-form-label col-form-label-sm">
-						Username
-					</label>
-					<div className="col-sm-10">
-						<input type="name" className="form-control form-control-sm" id="email" placeholder="e-mail" onChange={onEmailChange} value={userEmail} /> 
+				<div>
+
+					<div className="comp">
+						<div className="compbox">
+							<label className="col-form-label col-form-label-sm">
+								Username:
+							</label>
+						</div>
+						<div className="compbox">
+							<input type="name" className="form-control form-control-sm" id="email" placeholder="username" onChange={onEmailChange} value={userEmail} /> 
+						</div>
 					</div>
-			
-				</div>
-				<div className="row mb-3">
-					<label className="col-sm-2 col-form-label col-form-label-sm">
-						Password
-					</label>
-					<div className="col-sm-10">
-						<input type="password" className="form-control form-control-sm" id="password" placeholder="password" onChange={onPasswordChange} value={userPassword}  /> 
+
+					<div className="comp">
+						<div className="compbox">
+							<label className="col-form-label col-form-label-sm">
+								Password :
+							</label>
+						</div>
+						<div className="compbox">
+							<input type="password" className="form-control form-control-sm" id="password" placeholder="password" onChange={onPasswordChange} value={userPassword}  /> 
+						</div>
 					</div>
-			
 				</div>
 
-				<div className="row mb-3">
-					<div className="text-right">
+
+				<div className="comp">
+					<div className="compbox blankspot">
+					</div>
+					<div className="compbox">
 						 <button type="submit" className="btn btn-primary pull-right" onClick={handleClick} >Submit</button>
 					</div>
 				</div>
-				<div>
+
                 { isError ? (
             
 						<> Sorry, an Error has occured.   </>
@@ -93,7 +103,6 @@ const Login:React.FC<unknown> = () => {
 					): null
                 }
 
-				</div>
 		</div>
 		   );
 }

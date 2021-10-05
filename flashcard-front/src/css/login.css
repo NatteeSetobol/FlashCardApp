@@ -1,0 +1,13 @@
+.comp	{
+	display: flex;
+}
+
+.compbox {
+	margin-left: 10px;
+	margin-bottom:10px;
+}
+
+.blankspot {
+	margin-top:15px;
+	width: 180px;
+}

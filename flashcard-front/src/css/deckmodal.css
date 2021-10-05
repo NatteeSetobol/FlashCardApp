@@ -1,0 +1,9 @@
+.mainContainer
+{
+	display: flex;
+}
+
+.subContainer
+{
+	margin-left:15px;
+}

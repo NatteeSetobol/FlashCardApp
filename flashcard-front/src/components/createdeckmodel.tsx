@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useCreateDeckMutation} from "../services/deck"
 import { useDispatch, useSelector } from "react-redux"
 import { setDeck } from "../sliceoflife/deck"
+import '../css/deckmodal.css'
 
 const CreateDeckModal = () => {
 	const [show, setShow] = useState(false);
@@ -49,11 +50,23 @@ const CreateDeckModal = () => {
 
 	return (
 		<div>
-				           <form onSubmit={HandleSubmit}>
-						        <h6>Deck name</h6>
-								<input type="text" name="dname" id="dname" className="form-input" onChange={HandleInputChange} value={inputs.dname} />
-								<button type="submit" className="btn btn-primary" >Create Deck</button>
-								{ isError ? (
+			<form onSubmit={HandleSubmit}>
+				<div className="mainContainer">
+					<div className="subContainer">
+						<label className="col-form-label col-form-label-sm">
+							Deck name
+						</label>
+					</div>
+				</div>
+				<div className="mainContainer">
+					<div className="subContainer">
+						<input type="text" name="dname" id="dname" className="form-input" onChange={HandleInputChange} value={inputs.dname} />
+					</div>
+					<div className="subContainer">
+						<button type="submit" className="btn btn-primary" >Create Deck</button>
+					</div>
+				</div>
+						{ isError ? (
 										<> Sorry, an Error has occured. </>
 									) : isSuccess ? (
 										<> { resultStatus } </>
@@ -61,7 +74,7 @@ const CreateDeckModal = () => {
 										<> loading </>
 									): null
 								}
-							</form>
+			</form>
         </div>
 	);
 };
