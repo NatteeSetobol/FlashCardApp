@@ -13,9 +13,8 @@ const TextScrollComponent: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		setCount("" + props.value);
-	}, [null]);
+	}, [props.value]);
 
-	
 	const handleOnChange = (e:any) => {
 		setCount(e.target.value);
 		props.parentCallback(e.target.value);
@@ -39,7 +38,7 @@ const TextScrollComponent: React.FC<Props> = (props) => {
 		<div> 
 			<div className="input-group">
 				<button className="btn btn-outline-secondary" type="button" onClick={increaseValue}>+</button>
-				<input type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username with two button addons" value={count} onChange={(e) => {handleOnChange(e) }} />
+				<input type="text" className="form-control" placeholder="" aria-label="Recipient's username with two button addons" value={count} onChange={(e) => {handleOnChange(e) }} />
 				<button className="btn btn-outline-secondary" type="button" onClick={decreaseValue}>-</button>
 			 </div>
 		</div>

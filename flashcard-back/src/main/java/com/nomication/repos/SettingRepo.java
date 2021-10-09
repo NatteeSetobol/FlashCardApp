@@ -18,5 +18,7 @@ public interface SettingRepo extends CrudRepository<Setting, Integer> {
 	@Transactional
 	@Query(value = "DELETE from Setting s where s.deck_id = :deck_Id", nativeQuery = true)
 	void deleteDeckSettings(@Param("deck_Id") int deck_Id);
-		
+	
+	@Query("from Setting where deck_id = ?1")
+	ArrayList<Setting> getSettingByDeckId(int deck_id);
 }

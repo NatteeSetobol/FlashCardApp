@@ -55,6 +55,15 @@ const IndexPage:React.FC<unknown> = () => {
 		deleteShow();
     }
 
+	const closeModel = (childData:any) => {
+		deleteClose();
+	}
+
+	const closeCreateDeckModal = (childData:any) => {
+		handleClose();
+	}
+
+
 	const mapIt = (mapData:[]) => (
 		mapData.map((deck:Deck) => (
 			<tr>
@@ -103,9 +112,6 @@ const IndexPage:React.FC<unknown> = () => {
 	}
 
    
-	const closeModel = (childData:any) => {
-		deleteClose();
-	}
 
 	return (
 		<div className="container">
@@ -130,7 +136,7 @@ const IndexPage:React.FC<unknown> = () => {
 								<Modal.Title>Create Deck</Modal.Title>
 							</Modal.Header>
 							<Modal.Body>
-								<CreateDeckModal />
+								<CreateDeckModal closeCallback={closeCreateDeckModal} />
 							</Modal.Body>
 							<Modal.Footer>
 								<Button variant="secondary" onClick={handleClose}>Close</Button>

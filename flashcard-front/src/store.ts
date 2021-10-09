@@ -5,6 +5,7 @@ import reduxThunk, { ThunkDispatch } from "redux-thunk";
 import { loginApi } from "./services/login"
 import { deckApi } from "./services/deck"
 import { cardApi } from "./services/card"
+import { settingApi } from "./services/setting"
 import  deckReducer  from "./sliceoflife/deck"
 import thunk from 'redux-thunk'
 
@@ -14,9 +15,10 @@ export const store = configureStore({
 		[loginApi.reducerPath]: loginApi.reducer,
 		[deckApi.reducerPath]: deckApi.reducer,
 		[cardApi.reducerPath]: cardApi.reducer,
+		[settingApi.reducerPath]: settingApi.reducer,
 	},
 	middleware: (getDefaultMiddiware) =>
-		getDefaultMiddiware().concat(loginApi.middleware,deckApi.middleware, cardApi.middleware, thunk),
+		getDefaultMiddiware().concat(loginApi.middleware,deckApi.middleware, cardApi.middleware,settingApi.middleware, thunk),
 		
 });
 

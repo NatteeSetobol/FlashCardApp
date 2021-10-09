@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { setDeck } from "../sliceoflife/deck"
 import '../css/deckmodal.css'
 
-const CreateDeckModal = () => {
+type Props = {
+	closeCallback:any;
+}
+
+const CreateDeckModal: React.FC<Props>  = (props) => {
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -37,7 +41,7 @@ const CreateDeckModal = () => {
 				} else {
 					dispatch(setDeck(data.decks));
 					setResultStatus("deck created!");
-					handleClose();
+					props.closeCallback();
 				}
 				setClicked(false);
 			}

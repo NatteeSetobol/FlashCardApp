@@ -46,12 +46,13 @@ public class Setting
 		deck  = this.deck;
 	}
 	
-
+	/*
+	@JsonIgnore
 	public Deck getDeck()
 	{
 		return deck;
 	}
-
+	*/
 
 
 /*

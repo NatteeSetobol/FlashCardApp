@@ -53,6 +53,12 @@ public class Deck {
 	{
 		this.setting = setting;
 	}
+	/*
+	public Setting getSetting()
+	{
+		return setting;
+	}
+	*/
 
 	
 
