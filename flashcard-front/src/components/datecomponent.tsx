@@ -53,7 +53,7 @@ const DateComponent: React.FC<Props> = (props) => {
 
 	}
 	const minsToSecs = (childData:any) => {
-		setHours(childData);
+		setMins(childData);
 		props.totalTimeCallback( (mins) * (hours*60) + (days*24*60)) 
 	}
 

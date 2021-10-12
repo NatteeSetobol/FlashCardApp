@@ -9,7 +9,17 @@ export const settingApi = createApi({
 		getSettings: builder.query({
 			query: (deckId) => '/decksettings/' + deckId
 		}),
+		saveSettings: builder.mutation({
+			query: (input) => ({
+				url:`/decksettings`,
+				method: `PUT`,
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				body: input,
+			}),
+		}),
 	}),
 });
 
-export const { useGetSettingsQuery } = settingApi;
+export const { useSaveSettingsMutation,useGetSettingsQuery } = settingApi;
