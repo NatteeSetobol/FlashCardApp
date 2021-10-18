@@ -7,11 +7,13 @@ import { deckApi } from "./services/deck"
 import { cardApi } from "./services/card"
 import { settingApi } from "./services/setting"
 import  deckReducer  from "./sliceoflife/deck"
+import  studyReducer  from "./sliceoflife/study"
 import thunk from 'redux-thunk'
 
 export const store = configureStore({
 	reducer: {
 		myDecks:deckReducer,
+		myStudy:studyReducer,
 		[loginApi.reducerPath]: loginApi.reducer,
 		[deckApi.reducerPath]: deckApi.reducer,
 		[cardApi.reducerPath]: cardApi.reducer,

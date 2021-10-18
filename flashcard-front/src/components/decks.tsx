@@ -13,6 +13,11 @@ const Decks = () => {
 	let history = useHistory();
 	const  myDeck  = useSelector( (state:any) => state.myDecks.selected)
 
+	const study = () =>
+	{
+		history.push("/study/" + myDeck.id + "/");
+	}
+
 	const editClick = () =>
 	{
 		history.push("/editdeck/" + myDeck.id + "/");
@@ -24,7 +29,7 @@ const Decks = () => {
 			<nav className="navbar navbar-expand-lg navbar-light bg-light static-top">
 				<div className="container-fluid">
 					<div className="deckbuttons">
-						<button  type="button" className="deckbuttons btn btn-primary">Study</button> 
+						<button  type="button" className="deckbuttons btn btn-primary" onClick={study}>Study</button> 
 						<button  type="button" className="deckbuttons btn btn-primary" onClick={editClick}>Edit deck</button>
 					</div>
 				</div>

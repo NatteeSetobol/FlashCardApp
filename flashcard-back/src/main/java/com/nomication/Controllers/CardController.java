@@ -2,6 +2,8 @@ package com.nomication.Controllers;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Date;
+import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,6 +55,8 @@ public class CardController {
 				// TODO(): Do field checks for card!
 				if (hasError == false)
 				{
+					Date todaysDate;
+					Timestamp timestamp;
 					User foundUser = userService.findUserByUsername(currentUser.getUsername());
 
 					int deckId = (int) targetCard.get("deckId");
@@ -62,7 +66,12 @@ public class CardController {
 					Deck deck = deckService.GetDeckById(deckId);
 
 					Card card = new Card();
+					
+					todaysDate = new Date();
+					timestamp = new Timestamp(todaysDate.getTime());
+
 				//	card.setDeckId(deckId);
+					card.setDueDate(timestamp);
 					card.setFront(cardFront);
 					card.setBack(cardBack);
 					card.setDeck(deck);
@@ -102,6 +111,32 @@ public class CardController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	@RequestMapping(value="/cards/{id}/due", method = RequestMethod.GET )
+	public ResponseEntity<Object> getAllDueCards(@PathVariable("id") int deckId,HttpServletRequest httpServletRequest)
+	{
+		ArrayList<HashMap<String,Object>> session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
+		HashMap<String, Object> result =  new HashMap<String, Object>();
+		Date todaysDate;
+		Timestamp timestamp;
+
+		if (session != null)
+		{
+			HashMap<String, Object> sessionHashMap = session.get(0);
+			User currentUser = (User) sessionHashMap.get("user");
+
+			todaysDate = new Date();
+			timestamp = new Timestamp(todaysDate.getTime());
+
+			return ResponseEntity.status(HttpStatus.OK).body(cardServices.findAllCardsByDueDate(deckId, timestamp));
+		} else {
+			result.put("error","no session found!");
+		}
+
+
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 
 	@RequestMapping(value="/card", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Object> EditCard(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)

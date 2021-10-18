@@ -41,7 +41,10 @@ export const cardApi = createApi({
 		getAllCards: builder.query({
 			query: (deckId) => '/cards/' + deckId
 		}),
+		getAllDueCards: builder.query({
+			query: (deckId) => '/cards/' + deckId + "/due"
+		}),
 	}),
 });
 
-export const { useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation, useDeleteCardMutation } = cardApi;
+export const {useGetAllDueCardsQuery, useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation, useDeleteCardMutation } = cardApi;

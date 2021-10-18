@@ -81,7 +81,7 @@ public class Card {
 		return this.dueDate;
 	}
 	
-	public void setDueData(Timestamp dueDate)
+	public void setDueDate(Timestamp dueDate)
 	{
 		this.dueDate = dueDate;
 	}

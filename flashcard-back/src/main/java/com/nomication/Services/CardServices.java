@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.nomication.Models.Card;
 import com.nomication.repos.CardRepo;
 import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+import java.sql.Timestamp;
 
 @Service
 public class CardServices {
@@ -36,5 +37,10 @@ public class CardServices {
 	public void deleteAllCardsFromDeck(int deck_id)
 	{
 		cardRepo.deleteAllCardsFromDeck(deck_id);
+	}
+
+	public ArrayList<Card> findAllCardsByDueDate(int deck_id, Timestamp timestamp)
+	{
+		return cardRepo.findAllCardsByDueDate(deck_id, timestamp);
 	}
 }

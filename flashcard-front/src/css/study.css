@@ -1,0 +1,29 @@
+.flexbox	{
+	display: flex;
+}
+
+
+.timebox
+{
+	width: 100%;
+}
+
+.topbox {
+	margin-top: 10px;
+	width:100%;
+	height: 120px;
+}
+
+.middlebox 
+{
+	margin-top: 10px;
+	width:100%;
+	height: 400px;
+}
+
+.bottombox
+{
+	margin-top: 10px;
+	width:100%;
+	height: 150px;
+}

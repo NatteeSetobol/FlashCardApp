@@ -11,13 +11,14 @@ import org.springframework.stereotype.Repository;
 import com.nomication.Models.Card;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
-
-
-
+import java.sql.Timestamp;
 
 @Repository
 @Transactional
 public interface CardRepo extends CrudRepository<Card, Integer> {
+	@Query("from Card where deck_id = ?1 and dueDate <= ?2")
+	ArrayList<Card> findAllCardsByDueDate(int deck_id, Timestamp timeStamp);
+
 	@Query("from Card where deck_id = ?1")
 	ArrayList<Card> findAllCardsByDeckId(int deck_id);
 	@Query("from Card where id = ?1")

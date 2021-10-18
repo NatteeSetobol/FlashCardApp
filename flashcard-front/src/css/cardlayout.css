@@ -1,0 +1,41 @@
+.flexbox
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.box1
+{
+	width:15%;
+};
+
+.box2
+{
+	margin-top: 90px;
+	width:75%;
+	justify-content: center;
+};
+
+.topspace
+{
+	display: inline-flex;
+	width:100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+};
+
+.answerspace
+{
+	margin-top: 20px;
+};
+
+.buttonmargin
+{
+	margin-top: 50px;
+};
+
+.fake
+{
+	height:100px;
+};
