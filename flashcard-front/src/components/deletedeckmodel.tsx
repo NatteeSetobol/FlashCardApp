@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDeleteDeckMutation } from "../services/deck"
 import { Deck } from "../models/deck"
 import { setDeck,updateCard,setSelectedCards } from "../sliceoflife/deck"
-
 type Props = {
 	closeCallback:any;
 }

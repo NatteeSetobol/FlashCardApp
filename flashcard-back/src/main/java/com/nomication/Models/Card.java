@@ -19,6 +19,10 @@ public class Card {
 	private String front;
 	private String back;
 	private Timestamp dueDate;
+	private int quality;
+	private int interval;
+	private float easeFactor;
+	private int repetitions;
 
 
 	@ManyToOne
@@ -43,6 +47,46 @@ public class Card {
 	public void setId(int id)
 	{
 		this.id = id;
+	}
+
+	public void setQuality(int quality)
+	{
+		this.quality = quality;
+	}
+
+	public int getQuality()
+	{
+		return quality;
+	}
+
+	public void setInterval(int interval)
+	{
+		this.interval = interval;
+	}
+
+	public int getInterval()
+	{
+		return interval;
+	}
+
+	public void setEaseFactor(int easeFactor)
+	{
+		this.easeFactor= easeFactor;
+	}
+
+	public float getEaseFactor()
+	{
+		return easeFactor;
+	}
+
+	public void setRepetitions(int repetitions)
+	{
+		this.repetitions = repetitions;
+	}
+
+	public int getRepetitions()
+	{
+		return repetitions;
 	}
 /*
 	public int getDeckId()

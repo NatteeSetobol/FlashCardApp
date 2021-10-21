@@ -5,7 +5,11 @@ import { useCreateCardMutation} from "../services/card"
 import { useDispatch, useSelector } from "react-redux"
 import { setDeck } from "../sliceoflife/deck"
 
-const CreateCardModal = () => {
+type Props = {
+	closeDialogCallback:any;
+}
+
+const CreateCardModal = (props:Props) => {
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -35,7 +39,7 @@ const CreateCardModal = () => {
 					setResultStatus(data.error);
 				} else {
 					setResultStatus("card created!");
-					handleClose();
+					props.closeDialogCallback();
 				}
 				setClicked(false);
 			}
@@ -54,7 +58,7 @@ const CreateCardModal = () => {
 				<h6>Card back</h6>
 				<input type="text" name="cardBack" id="cardBack" className="form-input" onChange={HandleInputChange} value={inputs.cardBack} />
 				<h6/>
-				<button type="submit" className="btn btn-primary" >Create Deck</button>
+				<button type="submit" className="btn btn-primary" >Create Card</button>
 				{ isError ? (
 					<> Sorry, an Error has occured. </>
 				  ) : isSuccess ? (

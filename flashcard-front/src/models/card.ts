@@ -4,7 +4,12 @@ export class Card {
 		public deckId: number,
 		public front: string,
 		public back: string,
-		public dueDate: string
+		public dueDate: string,
+		public quality: number,
+		public interval: number,
+		public easeFactor: number,
+		public repetitions: number
+
 	)
 	{
 	}

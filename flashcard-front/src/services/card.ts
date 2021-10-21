@@ -29,13 +29,18 @@ export const cardApi = createApi({
 			}),
 		}),
 		deleteCard: builder.mutation({
-			query: (card:Card) => ({
+			query: (card) => ({
 				url: `/card`,
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json; charset=utf-8'
 				},
 				body: card,
+			}),
+		}),
+		reloadCards: builder.mutation({
+			query: (deckId) => ({
+				url: `/cards/` + deckId 
 			}),
 		}),
 		getAllCards: builder.query({
@@ -47,4 +52,4 @@ export const cardApi = createApi({
 	}),
 });
 
-export const {useGetAllDueCardsQuery, useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation, useDeleteCardMutation } = cardApi;
+export const { useReloadCardsMutation, useGetAllDueCardsQuery, useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation, useDeleteCardMutation } = cardApi;

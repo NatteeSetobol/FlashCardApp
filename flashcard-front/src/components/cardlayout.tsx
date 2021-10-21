@@ -2,9 +2,11 @@ import { useState,useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import '../css/cardlayout.css'
 import { useGetAllDueCardsQuery } from "../services/card"
-import {IncreaseIndex, setCards, setFront, setBack} from "../sliceoflife/study"
+import { setQuality,IncreaseIndex, setCards, setFront, setBack} from "../sliceoflife/study"
 
 const CardLayout:React.FC<unknown> = () => {
+
+	const [ hasCards, setHasCards] = useState(true);
 	const [ showAnswer, setShowAnswer] = useState(false);
 	const [ showAnswerButton, setShowAnswerButton] = useState(true);
 	const [ showRatingButtons, setShowRatingButtons] = useState(false);
@@ -29,6 +31,8 @@ const CardLayout:React.FC<unknown> = () => {
 		setShowRatingButtons(true);
 		dispatch(IncreaseIndex("none"));
 
+
+
 	}
 
 	const onChoseRating = (ratingNumber: number) => ()  =>
@@ -36,7 +40,7 @@ const CardLayout:React.FC<unknown> = () => {
 		setShowAnswer(false);
 		setShowAnswerButton(true);
 		setShowRatingButtons(false);
-
+		dispatch(setQuality(ratingNumber));
 
 		dispatch(setFront(myStudy.cards[myStudy.index].front));
 		dispatch(setBack(myStudy.cards[myStudy.index].back));
@@ -48,11 +52,15 @@ const CardLayout:React.FC<unknown> = () => {
 		{
 			if (isDataLoaded == false)
 			{
-				dispatch(IncreaseIndex("none"));
-				dispatch(setCards(data));
-				dispatch(setFront(data[0].front));
-				dispatch(setBack(data[0].back));
-				
+				if (data.length != 0)
+				{
+					dispatch(IncreaseIndex("none"));
+					dispatch(setCards(data));
+					dispatch(setFront(data[0].front));
+					dispatch(setBack(data[0].back));
+				} else {
+					setHasCards(false);
+				}
 				setIsDataLoaded(true);
 			}
 		}
@@ -65,43 +73,45 @@ const CardLayout:React.FC<unknown> = () => {
 						
 				</div>
 				<div className="box2">
-					<div className="topspace">
-						{ isSuccess ? (
-						<div>
-						<div>
-							<label className="col-form-label col-form-label-sm">
-								<h3>{ front }</h3>
-							</label>
-						</div>
-						<div className="buttonmargin" >
-							{showAnswer && (
-								<label className="col-form-label col-form-label-sm answerspace">
-									{ back }
-								</label>
-							)}
-						</div>
-						<div className="fake">
-						<br /><br />
-						</div>
-						<div className="buttonmargin">
-							{showAnswerButton && (
-							<button className="btn btn-primary buttonmargin"  onClick={onClickShowAnswer} >Show Answer</button>
-							)}
 
-						</div>
-						{showRatingButtons && (
-						<div className="buttonmargin">
-							<br /> <br />
-							<div className="btn-group" role="group" aria-label="Basic mixed styles example">
-								<button type="button" className="btn btn-success" onClick={onChoseRating(5)}>5 - Perfect</button>
-								<button type="button" className="btn btn-success" onClick={onChoseRating(4)}>4 - Correct Response </button>
-								<button type="button" className="btn btn-success" onClick={onChoseRating(3)}>3 - Correct Response with problems</button>
-								<button type="button" className="btn btn-warning" onClick={onChoseRating(2)}>2 - Incorrect Response; correct easy to recall</button>
-								<button type="button" className="btn btn-warning" onClick={onChoseRating(1)}>1 - Incorrect Response; correct one to remember</button>
-								<button type="button" className="btn btn-warning" onClick={onChoseRating(0)}>0 - Incorrect Response; blank out</button>
+					<div className="topspace">
+						{ isSuccess && hasCards ? (
+						<div>
+							<div>
+								<label className="col-form-label col-form-label-sm">
+									<h3>{ front }</h3>
+								</label>
 							</div>
-						</div>
-						)}
+							<div className="buttonmargin" >
+								{showAnswer && (
+									<label className="col-form-label col-form-label-sm answerspace">
+										{ back }
+									</label>
+								)}
+							</div>
+							<div className="fake">
+							<br /><br />
+							</div>
+							<div className="buttonmargin">
+								{showAnswerButton && (
+								<button className="btn btn-primary buttonmargin"  onClick={onClickShowAnswer} >Show Answer</button>
+								)}
+
+							</div>
+							{showRatingButtons && (
+								<div className="buttonmargin">
+									<br /> <br />
+									<div className="btn-group" role="group" aria-label="Basic mixed styles example">
+										<button type="button" className="btn btn-success" onClick={onChoseRating(5)}>5 - Perfect</button>
+										<button type="button" className="btn btn-success" onClick={onChoseRating(4)}>4 - Correct Response </button>
+										<button type="button" className="btn btn-success" onClick={onChoseRating(3)}>3 - Correct Response with problems</button>
+										<button type="button" className="btn btn-warning" onClick={onChoseRating(2)}>2 - Incorrect Response; correct easy to recall</button>
+										<button type="button" className="btn btn-warning" onClick={onChoseRating(1)}>1 - Incorrect Response; correct one to remember</button>
+										<button type="button" className="btn btn-warning" onClick={onChoseRating(0)}>0 - Incorrect Response; blank out</button>
+									</div>
+								</div>
+							
+							)}
 						</div>
 						) : isError ?  (
 							<div>
@@ -111,7 +121,13 @@ const CardLayout:React.FC<unknown> = () => {
 							<div>
 								Loading..
 							</div>
-						): null
+						): (
+						<div>
+							<h3>
+								Error can't not load cards from your deck. Maybe there's no cards in the deck?
+							</h3>
+						</div>
+						)
 						}
 
 					</div>

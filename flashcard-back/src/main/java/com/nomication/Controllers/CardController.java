@@ -170,7 +170,7 @@ public class CardController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@RequestMapping(value="/card", method = RequestMethod.DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/card", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> DeleteCard(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
 	{
 		HashMap<String, Object> result =  new HashMap<String, Object>();
@@ -189,8 +189,7 @@ public class CardController {
 				cardServices.delete(card);
 				//return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
 			}
-
-			return ResponseEntity.status(HttpStatus.OK).body(result);
+			result.put("Success","true");
 		} else {
 			result.put("error","no session found!");
 		}

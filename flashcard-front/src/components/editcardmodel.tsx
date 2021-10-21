@@ -33,7 +33,7 @@ const EditCardModal = () => {
 		event.preventDefault();
 
 		const editCard:Card = myDeck.selectedCards[myDeck.selectedCardIndex];
-		const newCard:Card = { id: editCard.id,deckId: 0, front: inputs.cardFront, back:inputs.cardBack, dueDate: '' };
+		const newCard:Card = { id: editCard.id,deckId: 0, front: inputs.cardFront, back:inputs.cardBack, dueDate: '', quality: 0, interval: 0, easeFactor: 0.0, repetitions: 0 };
 
 		EditCard(newCard);
 		setClicked(true);

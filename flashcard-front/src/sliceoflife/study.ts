@@ -5,12 +5,17 @@ import { Card } from "../models/card"
 export const studySlice = createSlice({
 	name: "myStudy",
 	initialState: {
-		cards: [],
+		cards: [] ,
 		front: "",
 		back: "",
 		index: -1,
+		lastIndex: 0,
 	},
 	reducers: {
+		setQuality: (state, action) => {
+			let card:Card =  state.cards[state.lastIndex];
+			card.quality = action.payload;
+		}, 
 		setCards:(state, action) => {
 			state.cards = action.payload;
 		},
@@ -23,8 +28,10 @@ export const studySlice = createSlice({
 		IncreaseIndex:(state, action) => {
 			if ( state.index == state.cards.length-1)
 			{
+				state.lastIndex = state.index;
 				state.index =  0;
 			} else {
+				state.lastIndex = state.index;
 				state.index =  state.index + 1;
 			}
 		},
@@ -32,5 +39,5 @@ export const studySlice = createSlice({
 	}
 });
 
-export const { IncreaseIndex,setCards, setBack,setFront } = studySlice.actions;
+export const { setQuality,IncreaseIndex,setCards, setBack,setFront } = studySlice.actions;
 export default studySlice.reducer;

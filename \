@@ -22,7 +22,7 @@ const DeckEdit = () => {
 		const dispatch = useDispatch();
 		const { data, error,isLoading, isSuccess, isError }   = useGetAllCardsQuery(myDeck.id);
 
-		const [  ReloadCards, dat = { data, error, isLoading, isSuccess, isError}  ] = useReloadCardsMutation(myDeck.id)
+		const [  ReloadCards  ] = useReloadCardsMutation(myDeck.id)
 		const [show, setShow] = useState(false);
 		const [editShow, setEditShow] = useState(false);
 		const handleClose = () => setShow(false);
@@ -37,15 +37,6 @@ const DeckEdit = () => {
 		const [ isLoaded, setIsLoaded ] = useState(false);
 		const [ isMapped, setIsMapped] = useState(false);
 
-
-		const [ isReloaded, setIsReloaded ] = useState(false);
-
-	useEffect(()=> {
-		console.log("updated");
-	}, [isMapped])
-
-
-
 		const editCard = (cardId:number) => () =>
 		{
 			dispatch(setSelectedCardIndex(cardId));
@@ -54,7 +45,7 @@ const DeckEdit = () => {
 
 		const deleteCard = (cardId:number) => () =>
 		{
-
+			let g = ReloadCards();
 			dispatch(setSelectedCardIndex(cardId));
 			deleteHandleShow();
 		}
@@ -84,17 +75,6 @@ const DeckEdit = () => {
 
 		);
 
-		if (isReloaded)
-		{
-			if (dat.isSuccess)
-			{
-				dispatch(setSelectedCards(dat.data));
-			}
-			
-			setIsMapped(false);
-			setIsReloaded(true);
-		}
-
 
 		if (isSuccess)
 		{
@@ -116,7 +96,6 @@ const DeckEdit = () => {
 
 		const closeDeleteDialog =  () =>
 		{
-			 ReloadCards(myDeck.id);
 			deleteHandleClose();
 		}
 
