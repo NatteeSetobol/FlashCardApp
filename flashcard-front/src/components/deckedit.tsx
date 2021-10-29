@@ -14,8 +14,6 @@ import { Card } from "../models/card"
 import DeleteCardModel from "./deletecardmodel"
 
 
-
-
 const DeckEdit = () => {
 	    const  myDeck  = useSelector( (state:any) => state.myDecks.selected)
 	    const  myCards = useSelector( (state:any) => state.myDecks.selectedCards)
@@ -42,7 +40,7 @@ const DeckEdit = () => {
 
 	useEffect(()=> {
 		console.log("updated");
-	}, [isMapped])
+	}, [])
 
 
 
@@ -83,17 +81,19 @@ const DeckEdit = () => {
 		)
 
 		);
-
+		/*
 		if (isReloaded)
 		{
 			if (dat.isSuccess)
 			{
+				console.log("here");
 				dispatch(setSelectedCards(dat.data));
 			}
 			
 			setIsMapped(false);
-			setIsReloaded(true);
+			setIsReloaded(false);
 		}
+		*/
 
 
 		if (isSuccess)
@@ -116,7 +116,8 @@ const DeckEdit = () => {
 
 		const closeDeleteDialog =  () =>
 		{
-			 ReloadCards(myDeck.id);
+			//ReloadCards(myDeck.id);
+			//setIsReloaded(true);
 			deleteHandleClose();
 		}
 
@@ -145,7 +146,7 @@ const DeckEdit = () => {
 								<Modal.Title>Edit Card</Modal.Title>
 							</Modal.Header>
 							<Modal.Body>
-								<EditCardModal />
+								<EditCardModal closeDialogCallback={editHandleClose}/>
 							</Modal.Body>
 							<Modal.Footer>
 								<Button variant="secondary" onClick={editHandleClose}>Close</Button>

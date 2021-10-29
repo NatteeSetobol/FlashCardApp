@@ -2,10 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { Card } from "../models/card"
 
 export const cardApi = createApi({
-	reducerPath: `card`,
+	reducerPath: `Cardos`,
 	baseQuery: fetchBaseQuery( {
 	}),
-	tagTypes: ['Post', 'Card'],
 	endpoints: (builder) => ({
 		createCard: builder.mutation ({
 			query: (input) => ({
@@ -16,7 +15,6 @@ export const cardApi = createApi({
                 },
 				body: input,
 			}),
-			invalidatesTags: ['Post'],
 		}),
 		editCard: builder.mutation({
 			query: (card:Card) => ({
@@ -28,10 +26,20 @@ export const cardApi = createApi({
 				body: card,
 			}),
 		}),
+		submitCard: builder.mutation({
+			query: (card:any) => ({
+				url: `/card`,
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				body: card,
+			}),
+		}),
 		deleteCard: builder.mutation({
 			query: (card) => ({
 				url: `/card`,
-				method: 'DELETE',
+				method: `DELETE`,
 				headers: {
 					'Content-Type': 'application/json; charset=utf-8'
 				},
@@ -52,4 +60,4 @@ export const cardApi = createApi({
 	}),
 });
 
-export const { useReloadCardsMutation, useGetAllDueCardsQuery, useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation, useDeleteCardMutation } = cardApi;
+export const { useSubmitCardMutation,useReloadCardsMutation, useGetAllDueCardsQuery, useCreateCardMutation, useGetAllCardsQuery,useEditCardMutation, useDeleteCardMutation } = cardApi;

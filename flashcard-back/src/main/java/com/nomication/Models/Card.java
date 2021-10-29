@@ -69,7 +69,7 @@ public class Card {
 		return interval;
 	}
 
-	public void setEaseFactor(int easeFactor)
+	public void setEaseFactor(float easeFactor)
 	{
 		this.easeFactor= easeFactor;
 	}

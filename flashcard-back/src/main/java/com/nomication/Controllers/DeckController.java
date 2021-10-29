@@ -71,6 +71,7 @@ public class DeckController {
 					settings.setDelay3(60*60*24*5);
 					settings.setDelay4(60*60*24*10);
 					settings.setDelay5(60*60*24*15);
+
 	
 					User foundUser = userService.findUserByUsername(currentUser.getUsername());
 					Deck deck = new Deck();

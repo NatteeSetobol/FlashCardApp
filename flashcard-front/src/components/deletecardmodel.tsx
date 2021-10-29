@@ -10,23 +10,24 @@ type Props = {
 	CloseDeleteModal: any
 }
 
-const DeleteCardModel  = (props:Props) => {
+const DeleteCardModel: React.FC<Props>  = (props) => {
 	const [deleteShow, setDeleteShow] = useState(false);
 	const handleDeleteClose = () => setDeleteShow(false);
 	const handleDeleteShow = () => setDeleteShow(true);
 	const [clicked, setClicked] = useState(false);
 	const [resultStatus, setResultStatus] = useState("");
-	const [  DeleteCard, { data, error,isLoading, isSuccess, isError }  ] = useDeleteCardMutation()
+	const [  DeleteCard, cardResult  ] = useDeleteCardMutation()
 	const dispatch = useDispatch();
 	const  myCards = useSelector( (state:any) => state.myDecks.selectedCards)
 	const  myDeck  = useSelector( (state:any) => state.myDecks)
 
 	const HandleSubmit = (event:any)  => {
 		event.preventDefault();
+		setClicked(true);
 		let editCard:Card = myDeck.selectedCards[myDeck.selectedCardIndex];
 		//let newCard:Card = { id: editCard.id ,deckId: 0, front: '', back:'', dueDate: '', quality: 0, interval: 0, easeFactor: 0.0, repetitions: 0 };
 		DeleteCard(  { id: editCard.id ,deckId: 0, front: '', back:''})
-		setClicked(true);
+		props.CloseDeleteModal();
 	}
 
 	
@@ -34,16 +35,16 @@ const DeleteCardModel  = (props:Props) => {
 	{
 		//if (isSuccess)
 		//{
-			//if (data)
-			//{
-				//	dispatch(setSelectedCards(data));
-				//	setResultStatus("Deletion successfull!");
-					props.CloseDeleteModal();
-		//	}
+			if (cardResult.data)
+			{
+				console.log("here");
+				dispatch(setSelectedCards(cardResult.data));
+				setResultStatus("Deletion successfull!");
+				setClicked(false);
 
+			}
 		//}
 
-		setClicked(false);
 	}
 	
 
@@ -54,13 +55,14 @@ const DeleteCardModel  = (props:Props) => {
 				<h6>Are you sure you want to delete this?</h6>
 				<button type="submit" className="btn btn-primary"  >yes</button>
 				<button type="submit" className="btn btn-primary" >no</button>
-				{ isError ? (
+				{cardResult.isError ? (
 					<> Sorry, an Error has occured. </>
-				  ) : isSuccess ? (
+				  ) : cardResult.isSuccess ? (
 					<> { resultStatus } </>
-				  ) : isLoading ? (
+				  ) : cardResult.isLoading ? (
 					<> loading </>
-				  ): null
+				  ): cardResult.data ? ( <> here  </> ) 
+				  :  null
 			   }
 
 			</form>

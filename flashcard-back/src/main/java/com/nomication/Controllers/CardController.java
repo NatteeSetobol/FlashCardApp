@@ -75,6 +75,7 @@ public class CardController {
 					card.setFront(cardFront);
 					card.setBack(cardBack);
 					card.setDeck(deck);
+					card.setEaseFactor(2.5f);
 					cardServices.save(card);
 					result.put("cards",cardServices.getAllCardsFromDeckById(deckId));
 				} else {
@@ -91,6 +92,28 @@ public class CardController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	
 	}
+
+	@RequestMapping(value="/card", method = RequestMethod.PATCH, consumes = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<Object> submitCard(@RequestBody HashMap<String, Object> targetCard, HttpServletRequest httpServletRequest)
+	{
+		HashMap<String, Object> result =  new HashMap<String, Object>();
+		boolean hasError = false;
+
+		@SuppressWarnings("unchecked")
+		ArrayList<HashMap<String,Object>>  session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
+		if (session != null)
+		{
+			if (session.size() > 0)
+			{
+				HashMap<String, Object> sessionHashMap = session.get(0);
+			
+				User currentUser = (User) sessionHashMap.get("user");
+			}
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 
 	@RequestMapping(value="/cards/{id}", method = RequestMethod.GET )
 	public ResponseEntity<Object> getAllCards(@PathVariable("id") int deckId,HttpServletRequest httpServletRequest)
@@ -138,6 +161,8 @@ public class CardController {
 	}
 
 
+
+
 	@RequestMapping(value="/card", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Object> EditCard(@RequestBody Card targetCard, HttpServletRequest httpServletRequest)
 	{
@@ -158,7 +183,8 @@ public class CardController {
 				card.setBack(targetCard.getBack());
 				cardServices.save(card);
 			
-			//	return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
+
+				return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeck().getId()));
 			}
 
 			return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -183,13 +209,16 @@ public class CardController {
 			//TODO(): Make sure the card that belongs to the deck the user created.
 			ArrayList<Card> cards = cardServices.getCardsById(targetCard.getId());
 
+
 			if (cards.size() > 0)
 			{
 				Card card = cards.get(0);
+
 				cardServices.delete(card);
-				//return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeckId()));
+
+				return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeck().getId()));
 			}
-			result.put("Success","true");
+
 		} else {
 			result.put("error","no session found!");
 		}

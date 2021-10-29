@@ -7,7 +7,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { setDeck,updateCard,setSelectedCards } from "../sliceoflife/deck"
 import { Card } from "../models/card"
 
-const EditCardModal = () => {
+type Props =
+{
+	closeDialogCallback:any;
+}
+
+const EditCardModal: React.FC<Props> = (props)  => {
 	const [editShow, setEditShow] = useState(false);
 	const editHandleClose = () => setEditShow(false);
 	const editHandleShow = () => setEditShow(true);
@@ -51,6 +56,7 @@ const EditCardModal = () => {
 				} else {
 					dispatch(setSelectedCards(data));
 					setResultStatus("Edit successfull!");
+					props.closeDialogCallback();
 					editHandleClose();
 				}
 				setClicked(false);

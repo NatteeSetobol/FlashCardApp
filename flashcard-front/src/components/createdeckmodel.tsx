@@ -25,7 +25,6 @@ const CreateDeckModal: React.FC<Props>  = (props) => {
 		
 		CreateNewDeck({ name: inputs.dname } )
 		setInputs({dname: ''});
-
 		setClicked(true);
 	}
 

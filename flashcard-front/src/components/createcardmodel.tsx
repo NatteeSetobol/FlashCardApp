@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import { useCreateCardMutation} from "../services/card"
 import { useDispatch, useSelector } from "react-redux"
-import { setDeck } from "../sliceoflife/deck"
+import { setDeck,setSelectedCards, setSelectedCardIndex } from "../sliceoflife/deck"
 
 type Props = {
 	closeDialogCallback:any;
@@ -19,6 +19,7 @@ const CreateCardModal = (props:Props) => {
 	const [  CreateNewCard, { data, error,isLoading, isSuccess, isError }  ] = useCreateCardMutation()
 	const  myDeck  = useSelector( (state:any) => state.myDecks.selected)
 	const dispatch = useDispatch();
+	const  myCards = useSelector( (state:any) => state.myDecks.selectedCards)
 
 	const HandleSubmit = (event: any) => {
 		event.preventDefault();
@@ -38,6 +39,7 @@ const CreateCardModal = (props:Props) => {
 				{
 					setResultStatus(data.error);
 				} else {
+					dispatch(setSelectedCards(data.cards));
 					setResultStatus("card created!");
 					props.closeDialogCallback();
 				}

@@ -1,8 +1,8 @@
 import { useState,useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import '../css/cardlayout.css'
-import { useGetAllDueCardsQuery } from "../services/card"
-import { setQuality,IncreaseIndex, setCards, setFront, setBack} from "../sliceoflife/study"
+import { useSubmitCardMutation,useGetAllDueCardsQuery } from "../services/card"
+import {setEaseFactor, setCardInterval,setRep,setQuality,IncreaseIndex, setCards, setFront, setBack} from "../sliceoflife/study"
 
 const CardLayout:React.FC<unknown> = () => {
 
@@ -16,6 +16,7 @@ const CardLayout:React.FC<unknown> = () => {
 	const [ back, setUIBack] = useState("");
 	const  myStudy = useSelector( (state:any) => state.myStudy)
 	const { data, error,isLoading, isSuccess, isError }   = useGetAllDueCardsQuery(myDeck.id);
+	const [  SubmitCard, submitCardDat = { data, error, isLoading, isSuccess, isError}  ] = useSubmitCardMutation()
 	const dispatch = useDispatch();
 
 	useEffect(()=> {
@@ -31,8 +32,6 @@ const CardLayout:React.FC<unknown> = () => {
 		setShowRatingButtons(true);
 		dispatch(IncreaseIndex("none"));
 
-
-
 	}
 
 	const onChoseRating = (ratingNumber: number) => ()  =>
@@ -40,10 +39,56 @@ const CardLayout:React.FC<unknown> = () => {
 		setShowAnswer(false);
 		setShowAnswerButton(true);
 		setShowRatingButtons(false);
-		dispatch(setQuality(ratingNumber));
 
 		dispatch(setFront(myStudy.cards[myStudy.index].front));
 		dispatch(setBack(myStudy.cards[myStudy.index].back));
+
+		if (ratingNumber >= 3)
+		{
+
+			switch(myStudy.cards[myStudy.lastIndex].repetitions)
+			{
+				case 0:
+				{
+					dispatch(setCardInterval(1));
+					break;
+				}
+				case 1:
+				{
+					dispatch(setCardInterval(6));
+					break;
+				}
+				default:
+				{
+					let newInterval:Number = 0;
+					newInterval =  (myStudy.cards[myStudy.lastIndex].interval * myStudy.cards[myStudy.lastIndex].easeFactor)
+					dispatch(setCardInterval(newInterval));
+					break;
+				}
+			}
+
+			let newRep = myStudy.cards[myStudy.lastIndex].repetitions + 1;
+		
+			dispatch(setRep(newRep));
+			let easeFact = myStudy.cards[myStudy.lastIndex].easeFactor + (0.1 - (5-myStudy.cards[myStudy.lastIndex].quality) * ( 0.08  +  (5-myStudy.cards[myStudy.lastIndex].quality) * 0.02 ) )
+
+			if (myStudy.cards[myStudy.lastIndex].interval > 0)
+			{
+
+			}
+		} else {
+			dispatch(setRep(0));
+			dispatch(setCardInterval(1));
+		}
+
+		if (myStudy.cards[myStudy.lastIndex].easeFactor < 1.3)
+		{
+			dispatch(setEaseFactor(1.3));
+		}
+
+		dispatch(setQuality(ratingNumber));
+		SubmitCard({id:1});
+		
 	}
 
 	if (isSuccess)

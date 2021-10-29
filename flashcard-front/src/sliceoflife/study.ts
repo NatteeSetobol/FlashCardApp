@@ -12,6 +12,19 @@ export const studySlice = createSlice({
 		lastIndex: 0,
 	},
 	reducers: {
+		setEaseFactor: (state, action) => {
+			let card:Card =  state.cards[state.lastIndex];
+			card.easeFactor = action.payload;
+		},
+		setCardInterval: (state, action) => {
+			let card:Card =  state.cards[state.lastIndex];
+			card.interval = action.payload;
+		},
+
+		setRep: (state, action) => {
+			let card:Card =  state.cards[state.lastIndex];
+			card.repetitions = action.payload;
+		},
 		setQuality: (state, action) => {
 			let card:Card =  state.cards[state.lastIndex];
 			card.quality = action.payload;
@@ -39,5 +52,5 @@ export const studySlice = createSlice({
 	}
 });
 
-export const { setQuality,IncreaseIndex,setCards, setBack,setFront } = studySlice.actions;
+export const { setEaseFactor,setCardInterval, setRep, setQuality,IncreaseIndex,setCards, setBack,setFront } = studySlice.actions;
 export default studySlice.reducer;
