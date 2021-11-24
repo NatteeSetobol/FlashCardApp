@@ -25,6 +25,7 @@ const CardLayout:React.FC<unknown> = () => {
 		setUIBack(myStudy.back);
 	}, [  myStudy.back])
 
+
 	const onClickShowAnswer = () =>
 	{
 		setShowAnswer(true);
@@ -36,6 +37,13 @@ const CardLayout:React.FC<unknown> = () => {
 
 	const onChoseRating = (ratingNumber: number) => ()  =>
 	{
+		let newId;
+		let newQuality;
+		let newInterval;
+		let newEaseFactor;
+		let newRepetitions;
+		let newRep;
+
 		setShowAnswer(false);
 		setShowAnswerButton(true);
 		setShowRatingButtons(false);
@@ -43,6 +51,7 @@ const CardLayout:React.FC<unknown> = () => {
 		dispatch(setFront(myStudy.cards[myStudy.index].front));
 		dispatch(setBack(myStudy.cards[myStudy.index].back));
 
+		newEaseFactor= myStudy.cards[myStudy.lastIndex].easeFactor;
 		if (ratingNumber >= 3)
 		{
 
@@ -50,44 +59,52 @@ const CardLayout:React.FC<unknown> = () => {
 			{
 				case 0:
 				{
+					newInterval= 1;
 					dispatch(setCardInterval(1));
 					break;
 				}
 				case 1:
 				{
+					newInterval = 6;
 					dispatch(setCardInterval(6));
 					break;
 				}
 				default:
 				{
-					let newInterval:Number = 0;
 					newInterval =  (myStudy.cards[myStudy.lastIndex].interval * myStudy.cards[myStudy.lastIndex].easeFactor)
 					dispatch(setCardInterval(newInterval));
 					break;
 				}
 			}
 
-			let newRep = myStudy.cards[myStudy.lastIndex].repetitions + 1;
+			newRepetitions  = myStudy.cards[myStudy.lastIndex].repetitions + 1;
 		
-			dispatch(setRep(newRep));
-			let easeFact = myStudy.cards[myStudy.lastIndex].easeFactor + (0.1 - (5-myStudy.cards[myStudy.lastIndex].quality) * ( 0.08  +  (5-myStudy.cards[myStudy.lastIndex].quality) * 0.02 ) )
+			dispatch(setRep(newRepetitions));
+			newEaseFactor= myStudy.cards[myStudy.lastIndex].easeFactor + (0.1 - (5-myStudy.cards[myStudy.lastIndex].quality) * ( 0.08  +  (5-myStudy.cards[myStudy.lastIndex].quality) * 0.02 ) )
 
 			if (myStudy.cards[myStudy.lastIndex].interval > 0)
 			{
 
 			}
 		} else {
+			newInterval = 1;
+			newRepetitions = 0;
 			dispatch(setRep(0));
 			dispatch(setCardInterval(1));
 		}
 
 		if (myStudy.cards[myStudy.lastIndex].easeFactor < 1.3)
 		{
+			newEaseFactor = 1.3;
 			dispatch(setEaseFactor(1.3));
 		}
 
 		dispatch(setQuality(ratingNumber));
-		SubmitCard({id:1});
+
+		newId = myStudy.cards[myStudy.index].id;
+		newQuality = ratingNumber;
+
+		SubmitCard({'id': newId, 'quality': newQuality, 'interval': newInterval, 'easeFactor': newEaseFactor, 'repetitions': newRepetitions  });
 		
 	}
 

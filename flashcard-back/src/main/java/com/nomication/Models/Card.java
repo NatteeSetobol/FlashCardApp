@@ -21,7 +21,7 @@ public class Card {
 	private Timestamp dueDate;
 	private int quality;
 	private int interval;
-	private float easeFactor;
+	private double easeFactor;
 	private int repetitions;
 
 
@@ -69,12 +69,12 @@ public class Card {
 		return interval;
 	}
 
-	public void setEaseFactor(float easeFactor)
+	public void setEaseFactor(double easeFactor)
 	{
 		this.easeFactor= easeFactor;
 	}
 
-	public float getEaseFactor()
+	public double getEaseFactor()
 	{
 		return easeFactor;
 	}

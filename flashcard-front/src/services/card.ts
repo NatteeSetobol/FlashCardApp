@@ -27,13 +27,13 @@ export const cardApi = createApi({
 			}),
 		}),
 		submitCard: builder.mutation({
-			query: (card:any) => ({
+			query: (cardEdit) => ({
 				url: `/card`,
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json; charset=utf-8'
 				},
-				body: card,
+				body: cardEdit,
 			}),
 		}),
 		deleteCard: builder.mutation({

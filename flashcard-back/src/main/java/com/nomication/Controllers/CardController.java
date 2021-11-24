@@ -1,6 +1,9 @@
 package com.nomication.Controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;	
 import java.util.HashMap;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Timestamp;
@@ -105,9 +108,49 @@ public class CardController {
 		{
 			if (session.size() > 0)
 			{
+				
+				int interval = (int) targetCard.get("interval");
+				int cardId = (int) targetCard.get("id");
+				int newQuality= (int) targetCard.get("quality");
+				double easeFactor = (double) targetCard.get("easeFactor");
+				int repetitions= (int) targetCard.get("repetitions");
+
 				HashMap<String, Object> sessionHashMap = session.get(0);
-			
 				User currentUser = (User) sessionHashMap.get("user");
+
+
+				ArrayList<Card> cards = cardServices.getCardsById(cardId);
+				if (cards.size() > 0)
+				{
+					Card card = cards.get(0);
+
+					if (card.getDeck().getUserId() == currentUser.getId())
+					{
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+						Calendar c = Calendar.getInstance();
+						c.setTime(new Date()); 
+						c.add(Calendar.HOUR, 24*interval); 
+						String output = new String(sdf.format(c.getTime()));
+
+						System.out.println("new date " + output);
+
+						Timestamp newTimeStamp = Timestamp.valueOf(output);
+						card.setDueDate(newTimeStamp);
+						card.setQuality(newQuality);
+						card.setInterval(interval);
+						card.setEaseFactor(easeFactor);
+						card.setRepetitions(repetitions);
+						cardServices.save(card);
+						
+						result.put("success","card updated");
+
+						
+					} else {
+						result.put("error","user not allowed to edit this");
+					}
+				}
+			} else {
+				result.put("error","session error");
 			}
 		}
 
