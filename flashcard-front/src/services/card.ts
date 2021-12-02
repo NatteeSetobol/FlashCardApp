@@ -51,6 +51,7 @@ export const cardApi = createApi({
 				url: `/cards/` + deckId 
 			}),
 		}),
+		
 		getAllCards: builder.query({
 			query: (deckId) => '/cards/' + deckId
 		}),

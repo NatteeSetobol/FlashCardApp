@@ -8,6 +8,7 @@ import { QueryCache } from 'react-query'
 import { Link } from 'react-router-dom'
 import '../css/deck.css'
 import { useHistory } from "react-router-dom"
+import {createBrowserHistory} from 'history'
 
 const Decks = () => {
 	let history = useHistory();

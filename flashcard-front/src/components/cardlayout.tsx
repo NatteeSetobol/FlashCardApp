@@ -1,8 +1,12 @@
 import { useState,useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import '../css/cardlayout.css'
-import { useSubmitCardMutation,useGetAllDueCardsQuery } from "../services/card"
+import { useSubmitCardMutation,useGetAllDueCardsQuery, useReloadCardsMutation } from "../services/card"
 import {setEaseFactor, setCardInterval,setRep,setQuality,IncreaseIndex, setCards, setFront, setBack} from "../sliceoflife/study"
+import {createBrowserHistory} from 'history'
+import { QueryCache } from 'react-query'
+
+const queryCache = new QueryCache();
 
 const CardLayout:React.FC<unknown> = () => {
 
@@ -15,12 +19,14 @@ const CardLayout:React.FC<unknown> = () => {
 	const [ front, setUIFront] = useState("");
 	const [ back, setUIBack] = useState("");
 	const  myStudy = useSelector( (state:any) => state.myStudy)
-	const { data, error,isLoading, isSuccess, isError }   = useGetAllDueCardsQuery(myDeck.id);
+	//const { data, error,isLoading, isSuccess, isError }   = useGetAllDueCardsQuery(myDeck.id);
+	const [ GetCards, {data, error,isLoading, isSuccess, isError }] = useReloadCardsMutation();
 	const [  SubmitCard, submitCardDat = { data, error, isLoading, isSuccess, isError}  ] = useSubmitCardMutation()
 	const dispatch = useDispatch();
 
+
 	useEffect(()=> {
-		
+		GetCards(myDeck.id);
 		setUIFront(myStudy.front);
 		setUIBack(myStudy.back);
 	}, [  myStudy.back])
