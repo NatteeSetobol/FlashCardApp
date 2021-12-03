@@ -9,13 +9,16 @@ import { Link } from 'react-router-dom'
 import '../css/deck.css'
 import { useHistory } from "react-router-dom"
 import {createBrowserHistory} from 'history'
+import { setCards, setFront, setBack} from "../sliceoflife/study"
 
 const Decks = () => {
 	let history = useHistory();
 	const  myDeck  = useSelector( (state:any) => state.myDecks.selected)
+	const dispatch = useDispatch();
 
 	const study = () =>
 	{
+		dispatch(setCards({}));
 		history.push("/study/" + myDeck.id + "/");
 	}
 

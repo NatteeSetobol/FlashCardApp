@@ -27,9 +27,10 @@ const CardLayout:React.FC<unknown> = () => {
 
 	useEffect(()=> {
 		GetCards(myDeck.id);
-		setUIFront(myStudy.front);
-		setUIBack(myStudy.back);
-	}, [  myStudy.back])
+		console.debug("refresh");
+		//setUIFront(myStudy.front);
+		//setUIBack(myStudy.back);
+	}, [ ])
 
 
 	const onClickShowAnswer = () =>
@@ -56,6 +57,11 @@ const CardLayout:React.FC<unknown> = () => {
 
 		dispatch(setFront(myStudy.cards[myStudy.index].front));
 		dispatch(setBack(myStudy.cards[myStudy.index].back));
+
+
+		setUIFront(myStudy.cards[myStudy.index].front);
+		setUIBack(myStudy.cards[myStudy.index].back);
+
 
 		newEaseFactor= myStudy.cards[myStudy.lastIndex].easeFactor;
 		if (ratingNumber >= 3)
@@ -107,7 +113,7 @@ const CardLayout:React.FC<unknown> = () => {
 
 		dispatch(setQuality(ratingNumber));
 
-		newId = myStudy.cards[myStudy.index].id;
+		newId = myStudy.cards[myStudy.lastIndex].id;
 		newQuality = ratingNumber;
 
 		SubmitCard({'id': newId, 'quality': newQuality, 'interval': newInterval, 'easeFactor': newEaseFactor, 'repetitions': newRepetitions  });
@@ -118,14 +124,18 @@ const CardLayout:React.FC<unknown> = () => {
 	{
 		if (data)
 		{
+
 			if (isDataLoaded == false)
 			{
 				if (data.length != 0)
 				{
 					dispatch(IncreaseIndex("none"));
+					console.debug(data);
 					dispatch(setCards(data));
 					dispatch(setFront(data[0].front));
 					dispatch(setBack(data[0].back));
+					setUIFront(data[0].front);
+					setUIBack(data[0].back);
 				} else {
 					setHasCards(false);
 				}
