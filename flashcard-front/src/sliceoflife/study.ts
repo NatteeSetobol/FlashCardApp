@@ -39,14 +39,14 @@ export const studySlice = createSlice({
 			state.back = action.payload;
 		},
 		IncreaseIndex:(state, action) => {
-			if ( state.index == state.cards.length-1)
-			{
-				state.lastIndex = state.index;
-				state.index =  0;
-			} else {
+			//if ( state.index == state.cards.length-1)
+		//	{
+		//		state.lastIndex = state.index;
+		//		state.index =  0;
+		//	} else {
 				state.lastIndex = state.index;
 				state.index =  state.index + 1;
-			}
+		//	}
 		},
 
 	}

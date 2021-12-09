@@ -1,6 +1,7 @@
 package com.nomication.Services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +35,16 @@ public class UserServices {
 			return null;
 	}
 
-	public void merge(User user)
+	public User merge(User user)
 	{
 		userRepo.save(user);
+		
+		return user;
+	}
+	
+	public List<User> GetUsers()
+	{
+		List<User> users = (List<User>) userRepo.findAll();
+		return users;
 	}
 }

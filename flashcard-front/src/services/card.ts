@@ -48,7 +48,7 @@ export const cardApi = createApi({
 		}),
 		reloadCards: builder.mutation({
 			query: (deckId) => ({
-				url: `/cards/` + deckId 
+				url: `/cards/` + deckId + "/due"
 			}),
 		}),
 		
