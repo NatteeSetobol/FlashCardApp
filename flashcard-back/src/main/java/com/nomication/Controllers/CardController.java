@@ -68,6 +68,9 @@ public class CardController {
 
 					Deck deck = deckService.GetDeckById(deckId);
 
+					deck.setTotalCards(deck.getTotalCards()+1);
+					deckService.save(deck);
+
 					Card card = new Card();
 					
 					todaysDate = new Date();
@@ -225,7 +228,6 @@ public class CardController {
 				card.setFront(targetCard.getFront());
 				card.setBack(targetCard.getBack());
 				cardServices.save(card);
-			
 
 				return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeck().getId()));
 			}
@@ -251,12 +253,18 @@ public class CardController {
 			User currentUser = (User) sessionHashMap.get("user");
 			//TODO(): Make sure the card that belongs to the deck the user created.
 			ArrayList<Card> cards = cardServices.getCardsById(targetCard.getId());
+			/*
 
-
+			*/
 			if (cards.size() > 0)
 			{
 				Card card = cards.get(0);
+				int deckId = (int) card.getDeck().getId();
 
+				Deck deck = deckService.GetDeckById(deckId);
+
+				deck.setTotalCards(deck.getTotalCards()-1);
+				deckService.save(deck);
 				cardServices.delete(card);
 
 				return ResponseEntity.status(HttpStatus.OK).body(cardServices.getAllCardsFromDeckById(card.getDeck().getId()));
@@ -271,5 +279,3 @@ public class CardController {
 
 	}
 }
-
-	

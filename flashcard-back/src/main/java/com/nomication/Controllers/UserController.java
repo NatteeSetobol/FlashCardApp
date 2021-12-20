@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.nomication.Models.User;
 import com.nomication.Services.UserServices;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 public class UserController {
@@ -42,7 +43,7 @@ public class UserController {
 					httpServletRequest.getSession().setAttribute("SPRING_BOOT_SESSION_MESSAGES", session);
 					session.add(newSession);
 					httpServletRequest.getSession().setAttribute("SPRING_BOOT_SESSION_MESSAGES", session);
-
+				
 					result.put("id", users.getId());
 					result.put("username", users.getUsername());
 				} else {

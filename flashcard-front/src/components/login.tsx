@@ -6,8 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { useLoginMutation } from "../services/login"
 import '../css/login.css'
+import { useCookies } from 'react-cookie'
 
 const Login:React.FC<unknown> = () => {
+	const [cookies, setCookie] = useCookies();	
 	const [ userEmail, setUserEmail] = useState<string>('');
 	const [ userPassword, setUserPassword] = useState<string>('');
 	const [  Login, { data, error,isLoading, isSuccess, isError }  ] = useLoginMutation()
@@ -42,7 +44,13 @@ const Login:React.FC<unknown> = () => {
 		{
 			if (!data.error)
 			{
-				history.push("/index");
+				if (didClick)
+				{
+					setCookie("id", data.id, { path: '/'});
+					history.push("/index");
+
+					setDidClick(false);
+				}
 			} else {
 				if (didClick)
 				{

@@ -32,7 +32,10 @@ public class User {
 		this.decks = decks;
 	}
 	*/
-	
+	public User()
+	{
+		super();
+	}
 	public User(String username, String password)
 	{
 		this.username = username;

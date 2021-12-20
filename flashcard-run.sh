@@ -13,4 +13,4 @@ cd ~/code/flashcardapp/flashcard-back/
 mvn clean
 mvn install
 cd target
-java -jar flashcard-back-0.0.1-SNAPSHOT.jar
+java -jar flashcard-back-0.0.1-SNAPSHOT.jar --server.session.cookie.secure=true

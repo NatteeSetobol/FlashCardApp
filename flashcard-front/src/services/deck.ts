@@ -18,6 +18,12 @@ export const deckApi = createApi({
 		getAllDecks: builder.query({
 			query:() => '/decks'
 		}),
+		getAllOfUsersDeck: builder.mutation({
+			query: (input) => ({
+				url: `/decks`,
+				methos: `GET`
+			})
+		}),
 		deleteDeck: builder.mutation ({
 			query: (input) => ({
 				url: `deck`,
@@ -31,4 +37,4 @@ export const deckApi = createApi({
 	}),
 });
 
-export const { useDeleteDeckMutation,useCreateDeckMutation, useGetAllDecksQuery } = deckApi;
+export const { useGetAllOfUsersDeckMutation, useDeleteDeckMutation,useCreateDeckMutation, useGetAllDecksQuery } = deckApi;

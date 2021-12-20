@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import CreateDeckModal from './createdeckmodel'
-import { useGetAllDecksQuery} from "../services/deck"
+import { useGetAllOfUsersDeckMutation, useGetAllDecksQuery} from "../services/deck"
 import { Deck } from "../models/deck"
 import { setDeck,getDeck} from "../sliceoflife/deck"
 import { QueryCache } from 'react-query'

@@ -55,12 +55,18 @@ const CardLayout:React.FC<unknown> = () => {
 		setShowAnswerButton(true);
 		setShowRatingButtons(false);
 
-		dispatch(setFront(myStudy.cards[myStudy.index].front));
-		dispatch(setBack(myStudy.cards[myStudy.index].back));
+		if (myStudy.index == myStudy.cards.length)
+		{
+			alert('hello world');
+		} else
+		if (myStudy.cards.length > 1)
+		{
+			dispatch(setFront(myStudy.cards[myStudy.index].front));
+			dispatch(setBack(myStudy.cards[myStudy.index].back));
 
-
-		setUIFront(myStudy.cards[myStudy.index].front);
-		setUIBack(myStudy.cards[myStudy.index].back);
+			setUIFront(myStudy.cards[myStudy.index].front);
+			setUIBack(myStudy.cards[myStudy.index].back);
+		} 
 
 
 		newEaseFactor= myStudy.cards[myStudy.lastIndex].easeFactor;
@@ -117,7 +123,6 @@ const CardLayout:React.FC<unknown> = () => {
 		newQuality = ratingNumber;
 
 		SubmitCard({'id': newId, 'quality': newQuality, 'interval': newInterval, 'easeFactor': newEaseFactor, 'repetitions': newRepetitions  });
-		
 	}
 
 	if (isSuccess)

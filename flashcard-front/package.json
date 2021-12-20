@@ -54,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.1",
     "bootstrap": "^5.1.0",
     "react-bootstrap": "^1.6.1"
   }

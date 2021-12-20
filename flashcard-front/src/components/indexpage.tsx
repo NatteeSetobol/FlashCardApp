@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import CreateDeckModal from './createdeckmodel'
-import { useGetAllDecksQuery} from "../services/deck"
+import { useGetAllDecksQuery, useGetAllOfUsersDeckMutation} from "../services/deck"
 import { Deck } from "../models/deck"
 import { setDeck,getDeck} from "../sliceoflife/deck"
 import { QueryCache } from 'react-query'
@@ -12,6 +12,7 @@ import '../css/deck.css'
 import '../css/index.css'
 import { Modal, Button } from 'react-bootstrap';
 import DeleteDeckModel from './deletedeckmodel'
+
 const IndexPage:React.FC<unknown> = () => {
 
 	const [showDelete, setShowDelete] = useState(false);
@@ -22,7 +23,8 @@ const IndexPage:React.FC<unknown> = () => {
 	const handleShow = () => setShow(true);
 
 
-	const { data, error,isLoading, isSuccess, isError }   = useGetAllDecksQuery("");
+	//const { data, error,isLoading, isSuccess, isError }   = useGetAllDecksQuery("");
+	const [ GetAllDecks, {data, isError, isLoading, isSuccess } ] = useGetAllOfUsersDeckMutation({});
 	const [ isLoaded, setIsLoaded ] = useState(false);
 	const [ isMapped, setIsMapped] = useState(false);
 	const  myDecks  = useSelector( (state:any) => state.myDecks.decks)
@@ -30,6 +32,7 @@ const IndexPage:React.FC<unknown> = () => {
 	let history = useHistory();
 
 	useEffect(()=> {
+		GetAllDecks(null);
 		setIsLoaded(false);
 	}, [])
  
@@ -38,7 +41,6 @@ const IndexPage:React.FC<unknown> = () => {
 
     const gotoDeck = (deck:any)  => (event:any) =>
     {
-
 		dispatch(setSelectedDeck(deck));
 		history.push("/decks/" + deck.id + "/");
     }
@@ -74,13 +76,7 @@ const IndexPage:React.FC<unknown> = () => {
 					<a href="#" onClick={gotoDeck(deck) }>{deck.name}</a>
 				</td>
 				<td>
-					{deck.dueDate}
-				</td>
-				<td>
 					{deck.totalCards}
-				</td>
-				<td>
-					{deck.totalStudied}
 				</td>
 				<td>
 					<a href="#" onClick={settings(deck)}>Settings</a>
@@ -157,9 +153,7 @@ const IndexPage:React.FC<unknown> = () => {
 					<tr>
 						<th scope="col">#</th>
 						<th scope="col">Deck Name</th>
-						<th scope="col">Due Date</th>
 						<th scope="col">Total Cards</th>
-						<th scope="col">Total Studed</th>
 						<th scope="col"></th>
 					</tr>
 				</thead>

@@ -85,8 +85,6 @@ public class DeckController {
 					settings.setDeck(deck);
 					settingService.save(settings);
 				
-
-
 					result.put("decks",deckServices.getAllDecksByUserId(currentUser.getId()));
 				} else {
 					result.put("error","Deck name can not be blank!");
@@ -106,7 +104,6 @@ public class DeckController {
 	@RequestMapping(value="/decks", method = RequestMethod.GET )
 	public ResponseEntity<Object> getAllDecks(HttpServletRequest httpServletRequest)
 	{
-
 		ArrayList<HashMap<String,Object>> session = (ArrayList<HashMap<String,Object>>) httpServletRequest.getSession().getAttribute("SPRING_BOOT_SESSION_MESSAGES");
 		HashMap<String, Object> result =  new HashMap<String, Object>();
 
